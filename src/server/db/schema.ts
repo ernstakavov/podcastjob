@@ -15,8 +15,13 @@ export type Resume = Database['public']['Tables']['resume']['Row'];
 export type ResumeInsert = Database['public']['Tables']['resume']['Insert'];
 export type ResumeUpdate = Database['public']['Tables']['resume']['Update'];
 
+export type Event = Database['public']['Tables']['event']['Row'];
+export type EventInsert = Database['public']['Tables']['event']['Insert'];
+export type EventUpdate = Database['public']['Tables']['event']['Update'];
+
 // Table names enum for type safety
 export const TableNames = {
   VACANCY: 'vacancy',
   RESUME: 'resume',
+  EVENT: 'event',
 } as const;
