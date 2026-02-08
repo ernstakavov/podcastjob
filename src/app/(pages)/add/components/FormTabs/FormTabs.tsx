@@ -1,26 +1,35 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { VacancyForm } from '../VacancyForm';
-import { ResumeForm } from '../ResumeForm';
-import { EventForm } from '../EventForm';
+import { ReactNode } from 'react';
 
-export const FormTabs = () => {
+export type FormTab = {
+  title: string;
+  value: string;
+  component: ReactNode;
+};
+
+type FormTabsProps = {
+  defaultTab: FormTab;
+  tabs: Record<string, FormTab>;
+};
+
+export const FormTabs = (props: FormTabsProps) => {
+  const { defaultTab, tabs } = props;
+
   return (
     <>
-      <Tabs defaultValue='vacancy'>
+      <Tabs defaultValue={defaultTab.value}>
         <TabsList className='w-full'>
-          <TabsTrigger value='vacancy'>Вакансия</TabsTrigger>
-          <TabsTrigger value='resume'>Резюме</TabsTrigger>
-          <TabsTrigger value='event'>Ивент</TabsTrigger>
+          {Object.values(tabs).map((tab) => (
+            <TabsTrigger key={tab.value} value={tab.value}>
+              {tab.title}
+            </TabsTrigger>
+          ))}
         </TabsList>
-        <TabsContent value='vacancy'>
-          <VacancyForm />
-        </TabsContent>
-        <TabsContent value='resume'>
-          <ResumeForm />
-        </TabsContent>
-        <TabsContent value='event'>
-          <EventForm />
-        </TabsContent>
+        {Object.values(tabs).map((tab) => (
+          <TabsContent key={tab.value} value={tab.value}>
+            {tab.component}
+          </TabsContent>
+        ))}
       </Tabs>
     </>
   );
