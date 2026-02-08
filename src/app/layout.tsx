@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Oswald, Roboto, Roboto_Condensed } from 'next/font/google';
+import localFont from 'next/font/local';
 import '../styles/globals.css';
 
 const oswaldSans = Oswald({
@@ -15,6 +16,13 @@ const roboto = Roboto({
 const robotoCondensed = Roboto_Condensed({
   variable: '--font-roboto',
   subsets: ['cyrillic'],
+});
+
+const proximaNova = localFont({
+  src: '../fonts/Proxima Nova Regular.ttf',
+  variable: '--font-proxima-nova',
+  weight: '400',
+  style: 'normal',
 });
 
 export const metadata: Metadata = {
@@ -34,7 +42,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`${oswaldSans.variable} ${roboto.variable} ${robotoCondensed.variable} antialiased`}
+        className={`${oswaldSans.variable} ${roboto.variable} ${robotoCondensed.variable} ${proximaNova.variable} antialiased`}
       >
         {children}
       </body>
