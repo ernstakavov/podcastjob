@@ -63,7 +63,7 @@ export const ResumeForm = () => {
               name='position'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Искомая должность</FormLabel>
+                  <FormLabel required>Искомая должность</FormLabel>
                   <FormControl>
                     <Input placeholder='Звукорежиссёр' type='text' {...field} />
                   </FormControl>
@@ -79,7 +79,7 @@ export const ResumeForm = () => {
                   name='employment_type'
                   render={({ field }) => (
                     <FormItem className='space-y-3'>
-                      <FormLabel>Занятость</FormLabel>
+                      <FormLabel required>Занятость</FormLabel>
                       <FormControl>
                         <RadioGroup
                           onValueChange={field.onChange}
@@ -113,7 +113,7 @@ export const ResumeForm = () => {
                   name='salary_expected'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Желаемая зарплата</FormLabel>
+                      <FormLabel required>Желаемая зарплата</FormLabel>
                       <FormControl>
                         <Input
                           placeholder='150 000 ₽'
@@ -138,7 +138,7 @@ export const ResumeForm = () => {
               name='experience'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Опыт работы</FormLabel>
+                  <FormLabel required>Опыт работы</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder='Опишите ваш опыт работы в подкаст-индустрии'
@@ -183,7 +183,7 @@ export const ResumeForm = () => {
               name='skills'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Навыки</FormLabel>
+                  <FormLabel required>Навыки</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder='Перечислите ваши профессиональные навыки, знание программ, оборудования'

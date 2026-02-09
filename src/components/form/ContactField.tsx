@@ -27,7 +27,7 @@ export const ContactField = <TFieldValues extends FieldValues>(
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Контакт</FormLabel>
+          <FormLabel required>Контакт</FormLabel>
           <FormControl>
             <Input placeholder='example@mail.com' type='text' {...field} />
           </FormControl>

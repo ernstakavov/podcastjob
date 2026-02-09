@@ -66,7 +66,7 @@ export const EventForm = () => {
               name='title'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Название</FormLabel>
+                  <FormLabel required>Название</FormLabel>
                   <FormControl>
                     <Input
                       placeholder='Подкаст-конференция 2025'
@@ -84,7 +84,7 @@ export const EventForm = () => {
               name='date'
               render={({ field }) => (
                 <FormItem className='flex flex-col'>
-                  <FormLabel>Дата</FormLabel>
+                  <FormLabel required>Дата</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -122,7 +122,7 @@ export const EventForm = () => {
               name='location'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Место проведения</FormLabel>
+                  <FormLabel required>Место проведения</FormLabel>
                   <FormControl>
                     <Input
                       placeholder='Москва, Конференц-зал'

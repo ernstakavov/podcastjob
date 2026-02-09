@@ -73,7 +73,7 @@ export const VacancyForm = () => {
               name='title'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Заголовок</FormLabel>
+                  <FormLabel required>Заголовок</FormLabel>
                   <FormControl>
                     <Input
                       placeholder='Монтажёр'
@@ -93,7 +93,7 @@ export const VacancyForm = () => {
               name='company_name'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Название компании</FormLabel>
+                  <FormLabel required>Название компании</FormLabel>
                   <FormControl>
                     <Input
                       placeholder='Либо-Либо'
@@ -115,7 +115,7 @@ export const VacancyForm = () => {
                   name='employment'
                   render={({ field }) => (
                     <FormItem className='space-y-3'>
-                      <FormLabel>Занятость</FormLabel>
+                      <FormLabel required>Занятость</FormLabel>
                       <FormControl>
                         <RadioGroup
                           onValueChange={field.onChange}
@@ -150,7 +150,7 @@ export const VacancyForm = () => {
                   name='work_mode'
                   render={({ field }) => (
                     <FormItem className='space-y-3'>
-                      <FormLabel>Формат работы</FormLabel>
+                      <FormLabel required>Формат работы</FormLabel>
                       <FormControl>
                         <RadioGroup
                           onValueChange={field.onChange}
@@ -234,7 +234,7 @@ export const VacancyForm = () => {
               name='position'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Искомая должностей</FormLabel>
+                  <FormLabel required>Искомая должностей</FormLabel>
                   <FormControl>
                     <Input placeholder='Администратор' type='text' {...field} />
                   </FormControl>
@@ -253,7 +253,7 @@ export const VacancyForm = () => {
                   name='salary_min'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>От</FormLabel>
+                      <FormLabel required>От</FormLabel>
                       <FormControl>
                         <Input
                           placeholder='50 000 ₽'
@@ -277,7 +277,7 @@ export const VacancyForm = () => {
                   name='salary_max'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>До</FormLabel>
+                      <FormLabel required>До</FormLabel>
                       <FormControl>
                         <Input
                           placeholder='100 000 ₽'
@@ -317,7 +317,7 @@ export const VacancyForm = () => {
               name='working_schedule'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>График работы</FormLabel>
+                  <FormLabel required>График работы</FormLabel>
                   <FormControl>
                     <Input placeholder='Пятидневка' type='text' {...field} />
                   </FormControl>
@@ -332,7 +332,7 @@ export const VacancyForm = () => {
               name='responsibilities'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Обязанности</FormLabel>
+                  <FormLabel required>Обязанности</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder=''
@@ -353,7 +353,7 @@ export const VacancyForm = () => {
               name='requirements'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Требования</FormLabel>
+                  <FormLabel required>Требования</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder=''
@@ -393,7 +393,7 @@ export const VacancyForm = () => {
               name='working_conditions'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Условия работы</FormLabel>
+                  <FormLabel required>Условия работы</FormLabel>
                   <FormControl>
                     <Input placeholder='' type='text' {...field} />
                   </FormControl>
