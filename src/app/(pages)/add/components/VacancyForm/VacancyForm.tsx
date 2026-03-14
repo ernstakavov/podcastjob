@@ -1,5 +1,5 @@
 'use client';
-import { useForm } from 'react-hook-form';
+import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Button } from '@/components/ui/button';
@@ -15,33 +15,109 @@ import {
 import { ContactField } from '@/components/form/ContactField';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radiogroup';
 import { Textarea } from '@/components/ui/textarea';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radiogroup';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
+import { CalendarIcon, Plus, X } from 'lucide-react';
 import { Calendar } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils';
 import {
+  ROLE_TYPES,
   EMPLOYMENT_TYPES,
   WORK_MODE_TYPES,
+  SCHEDULE_TYPES,
+  SALARY_TYPE_OPTIONS,
+  SALARY_PERIOD_OPTIONS,
   VACANCY_FORM_SCHEMA,
   VACANCY_FORM_DEFAULT_VALUES,
 } from './VacancyForm.constants';
 import { toast } from 'sonner';
 import { createVacancy } from './VacancyForm.actions';
 
+type FormValues = z.infer<typeof VACANCY_FORM_SCHEMA>;
+
+const FieldArraySection = ({
+  label,
+  name,
+  control,
+}: {
+  label: string;
+  name: 'responsibilities' | 'requirements' | 'working_conditions';
+  control: ReturnType<typeof useForm<FormValues>>['control'];
+}) => {
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name,
+  });
+
+  return (
+    <div className='space-y-3'>
+      <FormLabel required>{label}</FormLabel>
+      {fields.map((field, index) => (
+        <FormField
+          key={field.id}
+          control={control}
+          name={`${name}.${index}.value`}
+          render={({ field: inputField }) => (
+            <FormItem>
+              <div className='flex items-center gap-2'>
+                <FormControl>
+                  <Input {...inputField} placeholder={`Пункт ${index + 1}`} />
+                </FormControl>
+                {fields.length > 1 && (
+                  <Button
+                    type='button'
+                    variant='ghost'
+                    size='icon'
+                    onClick={() => remove(index)}
+                    className='shrink-0'
+                  >
+                    <X className='h-4 w-4' />
+                  </Button>
+                )}
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      ))}
+      {fields.length < 10 && (
+        <Button
+          type='button'
+          variant='outline'
+          size='sm'
+          onClick={() => append({ value: '' })}
+        >
+          <Plus className='mr-1 h-4 w-4' />
+          Добавить пункт
+        </Button>
+      )}
+    </div>
+  );
+};
+
 export const VacancyForm = () => {
-  const form = useForm<z.infer<typeof VACANCY_FORM_SCHEMA>>({
+  const form = useForm<FormValues>({
     resolver: zodResolver(VACANCY_FORM_SCHEMA),
     defaultValues: VACANCY_FORM_DEFAULT_VALUES,
   });
 
-  async function onSubmit(values: z.infer<typeof VACANCY_FORM_SCHEMA>) {
+  const salaryType = form.watch('salary_type');
+  const workMode = form.watch('work_mode');
+
+  async function onSubmit(values: FormValues) {
     try {
       const result = await createVacancy(values);
 
@@ -63,322 +139,400 @@ export const VacancyForm = () => {
     <Card className='mb-10 bg-white shadow-xl backdrop-blur-sm'>
       <CardContent>
         <Form {...form}>
-          <form
-            // action={}
-            onSubmit={form.handleSubmit(onSubmit)}
-            className='space-y-8'
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+            {/* 1. Название вакансии */}
             <FormField
               control={form.control}
               name='title'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel required>Заголовок</FormLabel>
+                  <FormLabel required>Название вакансии</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder='Монтажёр'
+                      placeholder='Монтажёр для подкаста'
                       type='text'
-                      maxLength={50}
+                      maxLength={100}
+                      className='focus:border-green'
                       {...field}
                     />
                   </FormControl>
-
                   <FormMessage />
                 </FormItem>
               )}
             />
 
+            {/* 2. Роль — Select */}
             <FormField
               control={form.control}
-              name='company_name'
+              name='role'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel required>Название компании</FormLabel>
+                  <FormLabel required>Роль</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder='Выберите роль' />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {ROLE_TYPES.map(({ label, value }) => (
+                        <SelectItem key={value} value={value}>
+                          {label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* 3. Работодатель */}
+            <FormField
+              control={form.control}
+              name='employer'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel required>Работодатель</FormLabel>
                   <FormControl>
                     <Input
                       placeholder='Либо-Либо'
                       type='text'
-                      maxLength={50}
+                      maxLength={100}
                       {...field}
                     />
                   </FormControl>
-
                   <FormMessage />
                 </FormItem>
               )}
             />
 
+            {/* 4. Формат работы + город */}
             <div className='grid grid-cols-12 gap-4'>
-              <div className='col-span-3'>
-                <FormField
-                  control={form.control}
-                  name='employment'
-                  render={({ field }) => (
-                    <FormItem className='space-y-3'>
-                      <FormLabel required>Занятость</FormLabel>
-                      <FormControl>
-                        <RadioGroup
-                          onValueChange={field.onChange}
-                          value={field.value}
-                          className='flex flex-col space-y-1'
-                        >
-                          {EMPLOYMENT_TYPES.map(({ label, value }, index) => (
-                            <FormItem
-                              className='flex items-center space-y-0 space-x-3'
-                              key={index}
-                            >
-                              <FormControl>
-                                <RadioGroupItem value={value} />
-                              </FormControl>
-                              <FormLabel className='font-normal'>
-                                {label}
-                              </FormLabel>
-                            </FormItem>
-                          ))}
-                        </RadioGroup>
-                      </FormControl>
-
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className='col-span-3'>
+              <div
+                className={
+                  workMode === 'office' || workMode === 'hybrid'
+                    ? 'col-span-6'
+                    : 'col-span-12'
+                }
+              >
                 <FormField
                   control={form.control}
                   name='work_mode'
                   render={({ field }) => (
-                    <FormItem className='space-y-3'>
+                    <FormItem>
                       <FormLabel required>Формат работы</FormLabel>
-                      <FormControl>
-                        <RadioGroup
-                          onValueChange={field.onChange}
-                          value={field.value}
-                          className='flex flex-col space-y-1'
-                        >
-                          {WORK_MODE_TYPES.map(({ label, value }, index) => (
-                            <FormItem
-                              className='flex items-center space-y-0 space-x-3'
-                              key={index}
-                            >
-                              <FormControl>
-                                <RadioGroupItem value={value} />
-                              </FormControl>
-                              <FormLabel className='font-normal'>
-                                {label}
-                              </FormLabel>
-                            </FormItem>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder='Выберите формат' />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {WORK_MODE_TYPES.map(({ label, value }) => (
+                            <SelectItem key={value} value={value}>
+                              {label}
+                            </SelectItem>
                           ))}
-                        </RadioGroup>
-                      </FormControl>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className='col-span-6'>
-                <FormField
-                  control={form.control}
-                  name='close_date'
-                  render={({ field }) => (
-                    <FormItem className='flex flex-col'>
-                      <FormLabel>Дата закрытия вакансии</FormLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant={'outline'}
-                              className={cn(
-                                'w-[240px] pl-3 text-left font-normal',
-                                !field.value && 'text-muted-foreground',
-                              )}
-                            >
-                              {field.value ? (
-                                format(field.value, 'PPP')
-                              ) : (
-                                <span>Выберите дату</span>
-                              )}
-                              <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className='w-auto p-0' align='start'>
-                          <Calendar
-                            mode='single'
-                            selected={field.value}
-                            onSelect={field.onChange}
-                          />
-                        </PopoverContent>
-                      </Popover>
-                      <FormDescription>
-                        Мы скроем вакансию через три недели, если не указана
-                        другая дата.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+              {(workMode === 'office' || workMode === 'hybrid') && (
+                <div className='col-span-6'>
+                  <FormField
+                    control={form.control}
+                    name='city'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Город</FormLabel>
+                        <FormControl>
+                          <Input placeholder='Москва' type='text' {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              )}
             </div>
 
-            <h6 className='mb-1'>Должность</h6>
-            <p className='text-muted-foreground mb-4 text-sm'>
-              Укажите вакансию в соответсвии с наиблее подходящей должностью.
-              Это поможет соискателям лучше понять задачи и требования — и
-              повысить качество откликов.
-            </p>
+            {/* 5. Тип занятости — Select */}
             <FormField
               control={form.control}
-              name='position'
+              name='employment_type'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel required>Искомая должностей</FormLabel>
-                  <FormControl>
-                    <Input placeholder='Администратор' type='text' {...field} />
-                  </FormControl>
-                  <FormDescription></FormDescription>
-
+                  <FormLabel required>Тип занятости</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder='Выберите тип занятости' />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {EMPLOYMENT_TYPES.map(({ label, value }) => (
+                        <SelectItem key={value} value={value}>
+                          {label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <h6 className='mb-4'>Диапазон заработной платы</h6>
-            <div className='grid grid-cols-12 gap-4'>
-              <div className='col-span-6'>
-                <FormField
-                  control={form.control}
-                  name='salary_min'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel required>От</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder='50 000 ₽'
-                          type='number'
-                          {...field}
-                          value={field.value ?? ''}
-                          onChange={(e) => {
-                            const value = e.target.value;
-                            field.onChange(value === '' ? '' : Number(value));
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className='col-span-6'>
-                <FormField
-                  control={form.control}
-                  name='salary_max'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel required>До</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder='100 000 ₽'
-                          type='number'
-                          {...field}
-                          value={field.value ?? ''}
-                          onChange={(e) => {
-                            const value = e.target.value;
-                            field.onChange(value === '' ? '' : Number(value));
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
-
+            {/* 6. График работы — Select */}
             <FormField
               control={form.control}
-              name='experience'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Опыт работы</FormLabel>
-                  <FormControl>
-                    <Input placeholder='100 лет' type='text' {...field} />
-                  </FormControl>
-                  <FormDescription>Опционально</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='working_schedule'
+              name='schedule'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel required>График работы</FormLabel>
-                  <FormControl>
-                    <Input placeholder='Пятидневка' type='text' {...field} />
-                  </FormControl>
-
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder='Выберите график' />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {SCHEDULE_TYPES.map(({ label, value }) => (
+                        <SelectItem key={value} value={value}>
+                          {label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
+            {/* 7. Оплата: тип + сумма + период */}
+            <div className='space-y-4'>
+              <FormField
+                control={form.control}
+                name='salary_type'
+                render={({ field }) => (
+                  <FormItem className='space-y-3'>
+                    <FormLabel required>Оплата</FormLabel>
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        value={field.value}
+                        className='flex space-x-4'
+                      >
+                        {SALARY_TYPE_OPTIONS.map(({ label, value }) => (
+                          <FormItem
+                            className='flex items-center space-y-0 space-x-2'
+                            key={value}
+                          >
+                            <FormControl>
+                              <RadioGroupItem value={value} />
+                            </FormControl>
+                            <FormLabel className='font-normal'>
+                              {label}
+                            </FormLabel>
+                          </FormItem>
+                        ))}
+                      </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className='grid grid-cols-12 gap-4'>
+                {salaryType === 'fixed' ? (
+                  <div className='col-span-6'>
+                    <FormField
+                      control={form.control}
+                      name='salary_fixed'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel required>Сумма</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder='50 000'
+                              type='number'
+                              {...field}
+                              value={field.value ?? ''}
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                field.onChange(
+                                  value === '' ? '' : Number(value),
+                                );
+                              }}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                ) : (
+                  <>
+                    <div className='col-span-3'>
+                      <FormField
+                        control={form.control}
+                        name='salary_min'
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel required>От</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder='50 000'
+                                type='number'
+                                {...field}
+                                value={field.value ?? ''}
+                                onChange={(e) => {
+                                  const value = e.target.value;
+                                  field.onChange(
+                                    value === '' ? '' : Number(value),
+                                  );
+                                }}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div className='col-span-3'>
+                      <FormField
+                        control={form.control}
+                        name='salary_max'
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel required>До</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder='100 000'
+                                type='number'
+                                {...field}
+                                value={field.value ?? ''}
+                                onChange={(e) => {
+                                  const value = e.target.value;
+                                  field.onChange(
+                                    value === '' ? '' : Number(value),
+                                  );
+                                }}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </>
+                )}
+
+                <div className='col-span-6'>
+                  <FormField
+                    control={form.control}
+                    name='salary_period'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel required>Период</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder='Выберите период' />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {SALARY_PERIOD_OPTIONS.map(({ label, value }) => (
+                              <SelectItem key={value} value={value}>
+                                {label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* 8. Короткое описание */}
             <FormField
               control={form.control}
+              name='description'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel required>Короткое описание</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder='Кратко опишите вакансию'
+                      className='resize-none'
+                      rows={7}
+                      maxLength={500}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>Максимум 500 символов</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* 9. Обязанности — useFieldArray */}
+            <FieldArraySection
+              label='Обязанности'
               name='responsibilities'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel required>Обязанности</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder=''
-                      className='resize-none'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Минимум 300 символов (примерно 20 строк)
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
+              control={form.control}
             />
 
-            <FormField
-              control={form.control}
+            {/* 10. Требования — useFieldArray */}
+            <FieldArraySection
+              label='Требования'
               name='requirements'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel required>Требования</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder=''
-                      className='resize-none'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Минимум 300 символов (примерно 20 строк)
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
+              control={form.control}
             />
 
+            {/* 11. Условия работы — useFieldArray */}
+            <FieldArraySection
+              label='Условия работы'
+              name='working_conditions'
+              control={form.control}
+            />
+
+            {/* 12. Как откликнуться */}
+            <ContactField control={form.control} name='contact' />
+
+            {/* 13. Что приложить */}
             <FormField
               control={form.control}
-              name='additional_requirements'
+              name='attachments_info'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Дополнительные требования</FormLabel>
+                  <FormLabel>Что приложить к отклику</FormLabel>
                   <FormControl>
-                    <Textarea
-                      placeholder=''
-                      className='resize-none'
+                    <Input
+                      placeholder='Резюме, портфолио, ссылка на работы'
+                      type='text'
                       {...field}
                     />
                   </FormControl>
@@ -388,22 +542,49 @@ export const VacancyForm = () => {
               )}
             />
 
+            {/* 14. Вакансия активна до — Calendar */}
             <FormField
               control={form.control}
-              name='working_conditions'
+              name='close_date'
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel required>Условия работы</FormLabel>
-                  <FormControl>
-                    <Input placeholder='' type='text' {...field} />
-                  </FormControl>
-
+                <FormItem className='flex flex-col'>
+                  <FormLabel>Вакансия активна до</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={'outline'}
+                          className={cn(
+                            'w-[240px] pl-3 text-left font-normal',
+                            !field.value && 'text-muted-foreground',
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, 'PPP')
+                          ) : (
+                            <span>Выберите дату</span>
+                          )}
+                          <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className='w-auto p-0' align='start'>
+                      <Calendar
+                        mode='single'
+                        selected={field.value}
+                        onSelect={field.onChange}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <FormDescription>
+                    Мы скроем вакансию через три недели, если не указана другая
+                    дата.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <ContactField control={form.control} name='contact' />
             <Button className='ml-auto block' size='lg' type='submit'>
               Отправить
             </Button>

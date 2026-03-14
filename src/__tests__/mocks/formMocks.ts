@@ -24,15 +24,25 @@ export function getVacancyFormTestValues() {
 
 export function getResumeFormTestValues() {
   return {
-    position: 'audio_production',
-    employment_type: 'full-time',
-    salary_expected: 150000,
+    position: 'Звукорежиссёр',
+    roles: ['production', 'editing'],
+    employment_type: ['full-time'],
+    work_format: 'remote',
+    city: '',
+    salary_type: 'range',
+    salary_fixed: '' as unknown as number | '',
+    salary_from: 100000,
+    salary_to: 200000,
+    salary_period: 'monthly',
     experience:
       'Работаю звукорежиссёром более 5 лет. Имею опыт записи и сведения подкастов различных жанров. Работал со студиями «Либо-Либо», «Медуза», «Редакция». Владею профессиональным оборудованием и программным обеспечением для аудиопродакшна.',
     achievements:
       'Лауреат премии «Лучший подкаст года 2024». Более 50 успешно завершённых проектов. Работал с известными медийными личностями.',
     skills:
       'Pro Tools, Adobe Audition, Logic Pro X, Ableton Live. Сведение, мастеринг, звукозапись, шумоподавление, реставрация аудио. Работа с микрофонами Neumann, Shure, Audio-Technica. Опыт выездных записей.',
-    contact: 'soundengineer@example.com',
+    contact_email: 'soundengineer@example.com',
+    contact_phone: '+7 (999) 123-45-67',
+    contact_telegram: '@soundengineer',
+    contact_website: '',
   };
 }

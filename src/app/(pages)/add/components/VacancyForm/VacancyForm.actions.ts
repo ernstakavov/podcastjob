@@ -15,19 +15,32 @@ function mapFormToDb(
 ): Omit<VacancyInsert, 'created_at' | 'updated_at' | 'id'> {
   return {
     title: formData.title,
-    employer: formData.company_name,
-    position: formData.position,
-    salary_min: formData.salary_min,
-    salary_max: formData.salary_max,
-    experience: formData.experience || null,
-    employment_type: formData.employment,
+    role: formData.role,
+    employer: formData.employer,
     work_mode: formData.work_mode,
-    schedule: formData.working_schedule,
-    responsibilities: formData.responsibilities,
-    requirements: formData.requirements,
-    additional_requirements: formData.additional_requirements || null,
-    working_conditions: formData.working_conditions,
+    city: formData.city || null,
+    employment_type: formData.employment_type,
+    schedule: formData.schedule,
+    salary_type: formData.salary_type,
+    salary_fixed:
+      formData.salary_type === 'fixed' && typeof formData.salary_fixed === 'number'
+        ? formData.salary_fixed
+        : null,
+    salary_min:
+      formData.salary_type === 'range' && typeof formData.salary_min === 'number'
+        ? formData.salary_min
+        : null,
+    salary_max:
+      formData.salary_type === 'range' && typeof formData.salary_max === 'number'
+        ? formData.salary_max
+        : null,
+    salary_period: formData.salary_period,
+    description: formData.description,
+    responsibilities: formData.responsibilities.map((item) => item.value),
+    requirements: formData.requirements.map((item) => item.value),
+    working_conditions: formData.working_conditions.map((item) => item.value),
     contact: formData.contact,
+    attachments_info: formData.attachments_info || null,
     close_date: formData.close_date
       ? formData.close_date.toISOString()
       : undefined,
@@ -78,7 +91,7 @@ export async function updateVacancy(
 
   // Remove undefined values
   const updateData = Object.fromEntries(
-    Object.entries(dbData).filter(([_, v]) => v !== undefined),
+    Object.entries(dbData).filter(([, v]) => v !== undefined),
   ) as Partial<Omit<VacancyInsert, 'created_at' | 'updated_at' | 'id'>>;
 
   // Update the vacancy

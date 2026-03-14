@@ -15,12 +15,31 @@ function mapFormToDb(
 ): Omit<ResumeInsert, 'created_at' | 'updated_at' | 'id'> {
   return {
     position: formData.position,
+    roles: formData.roles,
     employment_type: formData.employment_type,
-    salary_expected: formData.salary_expected,
+    work_format: formData.work_format,
+    city: formData.city || null,
+    salary_type: formData.salary_type,
+    salary_fixed:
+      formData.salary_type === 'fixed' && typeof formData.salary_fixed === 'number'
+        ? formData.salary_fixed
+        : null,
+    salary_from:
+      formData.salary_type === 'range' && typeof formData.salary_from === 'number'
+        ? formData.salary_from
+        : null,
+    salary_to:
+      formData.salary_type === 'range' && typeof formData.salary_to === 'number'
+        ? formData.salary_to
+        : null,
+    salary_period: formData.salary_period,
     experience: formData.experience,
     achievements: formData.achievements || null,
     skills: formData.skills,
-    contact: formData.contact,
+    contact_email: formData.contact_email,
+    contact_phone: formData.contact_phone || null,
+    contact_telegram: formData.contact_telegram || null,
+    contact_website: formData.contact_website || null,
   };
 }
 
@@ -69,7 +88,7 @@ export async function updateResume(
 
   // Remove undefined values
   const updateData = Object.fromEntries(
-    Object.entries(dbData).filter(([_, v]) => v !== undefined),
+    Object.entries(dbData).filter(([, v]) => v !== undefined),
   ) as Partial<Omit<ResumeInsert, 'created_at' | 'updated_at' | 'id'>>;
 
   // Update the resume
