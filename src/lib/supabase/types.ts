@@ -16,72 +16,36 @@ export type Database = {
     Tables: {
       event: {
         Row: {
-          id: string
-          title: string
-          event_type: string
-          target_audience: string[]
-          organizer: string
-          event_format: string
-          location: string | null
-          date_type: string
-          date_start: string
-          date_end: string | null
-          cost_type: string
-          cost_amount: number | null
-          short_description: string
-          detailed_description: string | null
-          website: string | null
-          contact_email: string | null
-          contact_telegram: string | null
-          contact_phone: string | null
-          registration_deadline: string | null
+          conditions: string | null
+          contact: string
           created_at: string
+          date: string
+          id: string
+          location: string
+          program: string | null
+          title: string
           updated_at: string
         }
         Insert: {
-          id: string
-          title: string
-          event_type: string
-          target_audience: string[]
-          organizer: string
-          event_format: string
-          location?: string | null
-          date_type?: string
-          date_start: string
-          date_end?: string | null
-          cost_type?: string
-          cost_amount?: number | null
-          short_description: string
-          detailed_description?: string | null
-          website?: string | null
-          contact_email?: string | null
-          contact_telegram?: string | null
-          contact_phone?: string | null
-          registration_deadline?: string | null
+          conditions?: string | null
+          contact: string
           created_at?: string
+          date: string
+          id: string
+          location: string
+          program?: string | null
+          title: string
           updated_at?: string
         }
         Update: {
-          id?: string
-          title?: string
-          event_type?: string
-          target_audience?: string[]
-          organizer?: string
-          event_format?: string
-          location?: string | null
-          date_type?: string
-          date_start?: string
-          date_end?: string | null
-          cost_type?: string
-          cost_amount?: number | null
-          short_description?: string
-          detailed_description?: string | null
-          website?: string | null
-          contact_email?: string | null
-          contact_telegram?: string | null
-          contact_phone?: string | null
-          registration_deadline?: string | null
+          conditions?: string | null
+          contact?: string
           created_at?: string
+          date?: string
+          id?: string
+          location?: string
+          program?: string | null
+          title?: string
           updated_at?: string
         }
         Relationships: []
@@ -89,144 +53,102 @@ export type Database = {
       resume: {
         Row: {
           achievements: string | null
-          city: string | null
-          contact_email: string
-          contact_phone: string | null
-          contact_telegram: string | null
-          contact_website: string | null
+          contact: string
           created_at: string
-          employment_type: string[]
+          employment_type: string
           experience: string
           id: string
           position: string
-          roles: string[]
-          salary_fixed: number | null
-          salary_from: number | null
-          salary_period: string
-          salary_to: number | null
-          salary_type: string
+          salary_expected: number
           skills: string
           updated_at: string
-          work_format: string
         }
         Insert: {
           achievements?: string | null
-          city?: string | null
-          contact_email: string
-          contact_phone?: string | null
-          contact_telegram?: string | null
-          contact_website?: string | null
+          contact: string
           created_at?: string
-          employment_type: string[]
+          employment_type: string
           experience: string
           id: string
           position: string
-          roles: string[]
-          salary_fixed?: number | null
-          salary_from?: number | null
-          salary_period?: string
-          salary_to?: number | null
-          salary_type?: string
+          salary_expected: number
           skills: string
           updated_at?: string
-          work_format: string
         }
         Update: {
           achievements?: string | null
-          city?: string | null
-          contact_email?: string
-          contact_phone?: string | null
-          contact_telegram?: string | null
-          contact_website?: string | null
+          contact?: string
           created_at?: string
-          employment_type?: string[]
+          employment_type?: string
           experience?: string
           id?: string
           position?: string
-          roles?: string[]
-          salary_fixed?: number | null
-          salary_from?: number | null
-          salary_period?: string
-          salary_to?: number | null
-          salary_type?: string
+          salary_expected?: number
           skills?: string
           updated_at?: string
-          work_format?: string
         }
         Relationships: []
       }
       vacancy: {
         Row: {
-          attachments_info: string | null
-          city: string | null
+          additional_requirements: string | null
           close_date: string | null
           contact: string
           created_at: string
-          description: string
           employer: string
           employment_type: string
+          experience: string | null
           id: string
-          requirements: string[]
-          responsibilities: string[]
-          role: string
-          salary_fixed: number | null
-          salary_max: number | null
-          salary_min: number | null
-          salary_period: string
-          salary_type: string
+          position: string
+          requirements: string
+          responsibilities: string
+          salary_max: number
+          salary_min: number
           schedule: string
           title: string
           updated_at: string
           work_mode: string
-          working_conditions: string[]
+          working_conditions: string
         }
         Insert: {
-          attachments_info?: string | null
-          city?: string | null
+          additional_requirements?: string | null
           close_date?: string | null
           contact: string
           created_at?: string
-          description: string
           employer: string
           employment_type: string
+          experience?: string | null
           id: string
-          requirements: string[]
-          responsibilities: string[]
-          role: string
-          salary_fixed?: number | null
-          salary_max?: number | null
-          salary_min?: number | null
-          salary_period?: string
-          salary_type?: string
+          position: string
+          requirements: string
+          responsibilities: string
+          salary_max: number
+          salary_min: number
           schedule: string
           title: string
           updated_at?: string
           work_mode: string
-          working_conditions: string[]
+          working_conditions: string
         }
         Update: {
-          attachments_info?: string | null
-          city?: string | null
+          additional_requirements?: string | null
           close_date?: string | null
           contact?: string
           created_at?: string
-          description?: string
           employer?: string
           employment_type?: string
+          experience?: string | null
           id?: string
-          requirements?: string[]
-          responsibilities?: string[]
-          role?: string
-          salary_fixed?: number | null
-          salary_max?: number | null
-          salary_min?: number | null
-          salary_period?: string
-          salary_type?: string
+          position?: string
+          requirements?: string
+          responsibilities?: string
+          salary_max?: number
+          salary_min?: number
           schedule?: string
           title?: string
           updated_at?: string
           work_mode?: string
-          working_conditions?: string[]
+          working_conditions?: string
         }
         Relationships: []
       }
