@@ -64,8 +64,10 @@ export const ResumeForm = () => {
   }
 
   return (
-    <Card className='mb-10 bg-white shadow-xl backdrop-blur-sm'>
-      <CardContent>
+    <Card className='relative mb-10 overflow-hidden rounded-[32px] border border-white/10 bg-transparent shadow-[0_20px_60px_rgba(0,0,0,0.15)] backdrop-blur-[20px]'>
+      {/* Decorative green corner accent */}
+      <div className='absolute top-0 right-0 h-[120px] w-[120px] rounded-[0_32px_0_100%] bg-[#00A739] opacity-30' />
+      <CardContent className='relative z-[2]'>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
             {/* 1. Должность */}
@@ -476,8 +478,12 @@ export const ResumeForm = () => {
               </div>
             </div>
 
-            <Button className='ml-auto block' size='lg' type='submit'>
-              Отправить
+            <Button
+              className='mt-4 block w-full rounded-full bg-[#00A739] px-9 py-5 text-[15px] font-bold uppercase tracking-[0.08em] text-white transition-all duration-250 hover:-translate-y-0.5 hover:bg-black hover:text-white'
+              size='lg'
+              type='submit'
+            >
+              Отправить резюме
             </Button>
           </form>
         </Form>
