@@ -1,25 +1,4 @@
 import { z } from 'zod'
-import { PODCAST_ROLES } from '@/lib/podcastRoles'
-
-export { PODCAST_ROLES }
-
-export const EMPLOYMENT_TYPES = [
-  { label: 'Полная занятость', value: 'full-time' },
-  { label: 'Частичная занятость', value: 'part-time' },
-  { label: 'Проектная работа', value: 'project' },
-  { label: 'Фриланс', value: 'freelance' },
-]
-
-export const SALARY_TYPE_OPTIONS = [
-  { label: 'Фиксированная', value: 'fixed' },
-  { label: 'Вилка', value: 'range' },
-]
-
-export const SALARY_PERIOD_OPTIONS = [
-  { label: 'в месяц', value: 'monthly' },
-  { label: 'за проект', value: 'per-project' },
-  { label: 'в год', value: 'yearly' },
-]
 
 export const RESUME_FORM_SCHEMA = z
   .object({

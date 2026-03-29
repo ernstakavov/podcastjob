@@ -13,11 +13,13 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { ContactField } from '@/components/form/ContactField'
+import { EmploymentTypeField } from '@/components/form/EmploymentTypeField'
+import { RoleField } from '@/components/form/RoleField'
+import { SalaryField } from '@/components/form/SalaryField'
 import { WorkModeField } from '@/components/form/WorkModeField'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radiogroup'
 import {
   Select,
   SelectContent,
@@ -35,11 +37,7 @@ import { CalendarIcon, Plus, X } from 'lucide-react'
 import { Calendar } from '@/components/ui/calendar'
 import { cn } from '@/lib/utils'
 import {
-  ROLE_TYPES,
-  EMPLOYMENT_TYPES,
   SCHEDULE_TYPES,
-  SALARY_TYPE_OPTIONS,
-  SALARY_PERIOD_OPTIONS,
   VACANCY_FORM_SCHEMA,
   VACANCY_FORM_DEFAULT_VALUES,
 } from './VacancyForm.constants'
@@ -115,8 +113,6 @@ export const VacancyForm = () => {
     defaultValues: VACANCY_FORM_DEFAULT_VALUES,
   })
 
-  const salaryType = form.watch('salary_type')
-
   async function onSubmit(values: FormValues) {
     try {
       const result = await createVacancy(values)
@@ -184,63 +180,14 @@ export const VacancyForm = () => {
             <div className='grid grid-cols-12 gap-4'>
               {/* 2. Роль — Select */}
               <div className='col-span-4'>
-                <FormField
-                  control={form.control}
-                  name='role'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel required>Роль</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder='Выберите роль' />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {ROLE_TYPES.map(({ label, value }) => (
-                            <SelectItem key={value} value={value}>
-                              {label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <RoleField control={form.control} name='role' />
               </div>
 
               {/* 5. Тип занятости — Select */}
               <div className='col-span-4'>
-                <FormField
+                <EmploymentTypeField
                   control={form.control}
                   name='employment_type'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel required>Тип занятости</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder='Выберите тип занятости' />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {EMPLOYMENT_TYPES.map(({ label, value }) => (
-                            <SelectItem key={value} value={value}>
-                              {label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
                 />
               </div>
 
@@ -284,155 +231,14 @@ export const VacancyForm = () => {
             />
 
             {/* 7. Оплата: тип + сумма + период */}
-            <div className='space-y-4'>
-              <FormField
-                control={form.control}
-                name='salary_type'
-                render={({ field }) => (
-                  <FormItem className='space-y-3'>
-                    <FormLabel required>Оплата</FormLabel>
-                    <FormControl>
-                      <RadioGroup
-                        onValueChange={field.onChange}
-                        value={field.value}
-                        className='flex space-x-4'
-                      >
-                        {SALARY_TYPE_OPTIONS.map(({ label, value }) => (
-                          <FormItem
-                            className='flex items-center space-y-0 space-x-2'
-                            key={value}
-                          >
-                            <FormControl>
-                              <RadioGroupItem value={value} />
-                            </FormControl>
-                            <FormLabel className='font-normal'>
-                              {label}
-                            </FormLabel>
-                          </FormItem>
-                        ))}
-                      </RadioGroup>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <div className='grid grid-cols-12 gap-4'>
-                {salaryType === 'fixed' ? (
-                  <div className='col-span-6'>
-                    <FormField
-                      control={form.control}
-                      name='salary_fixed'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel required>Сумма</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder='50 000'
-                              type='number'
-                              {...field}
-                              value={field.value ?? ''}
-                              onChange={(e) => {
-                                const value = e.target.value
-                                field.onChange(
-                                  value === '' ? '' : Number(value),
-                                )
-                              }}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                ) : (
-                  <>
-                    <div className='col-span-3'>
-                      <FormField
-                        control={form.control}
-                        name='salary_min'
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel required>От</FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder='50 000'
-                                type='number'
-                                {...field}
-                                value={field.value ?? ''}
-                                onChange={(e) => {
-                                  const value = e.target.value
-                                  field.onChange(
-                                    value === '' ? '' : Number(value),
-                                  )
-                                }}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <div className='col-span-3'>
-                      <FormField
-                        control={form.control}
-                        name='salary_max'
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel required>До</FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder='100 000'
-                                type='number'
-                                {...field}
-                                value={field.value ?? ''}
-                                onChange={(e) => {
-                                  const value = e.target.value
-                                  field.onChange(
-                                    value === '' ? '' : Number(value),
-                                  )
-                                }}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  </>
-                )}
-
-                <div className='col-span-6'>
-                  <FormField
-                    control={form.control}
-                    name='salary_period'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel required>Период</FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder='Выберите период' />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {SALARY_PERIOD_OPTIONS.map(({ label, value }) => (
-                              <SelectItem key={value} value={value}>
-                                {label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-            </div>
+            <SalaryField
+              control={form.control}
+              typeName='salary_type'
+              fixedName='salary_fixed'
+              minName='salary_min'
+              maxName='salary_max'
+              periodName='salary_period'
+            />
 
             {/* 8. Короткое описание */}
             <FormField
