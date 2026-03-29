@@ -63,8 +63,7 @@ export const EventForm = () => {
         form.reset();
       } else {
         toast.error(
-          result.error ||
-            'Не удалось создать мероприятие. Попробуйте снова.',
+          result.error || 'Не удалось создать мероприятие. Попробуйте снова.',
         );
       }
     } catch (error) {
@@ -74,14 +73,10 @@ export const EventForm = () => {
   }
 
   const locationPlaceholder =
-    eventFormat === 'online'
-      ? 'Zoom, Youtube, и т.д.'
-      : 'Страна, город, адрес';
+    eventFormat === 'online' ? 'Zoom, Youtube, и т.д.' : 'Страна, город, адрес';
 
   return (
     <Card className='relative mb-10 overflow-hidden rounded-[32px] border border-white/10 bg-transparent shadow-[0_20px_60px_rgba(0,0,0,0.15)] backdrop-blur-[20px]'>
-      {/* Decorative green corner accent */}
-      <div className='absolute top-0 right-0 h-[120px] w-[120px] rounded-[0_32px_0_100%] bg-[#00A739] opacity-30' />
       <CardContent className='relative z-[2]'>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
@@ -124,10 +119,7 @@ export const EventForm = () => {
                         </FormControl>
                         <SelectContent>
                           {EVENT_TYPE_OPTIONS.map((option) => (
-                            <SelectItem
-                              key={option.value}
-                              value={option.value}
-                            >
+                            <SelectItem key={option.value} value={option.value}>
                               {option.label}
                             </SelectItem>
                           ))}
@@ -200,10 +192,7 @@ export const EventForm = () => {
                         </FormControl>
                         <SelectContent>
                           {EVENT_FORMAT_OPTIONS.map((option) => (
-                            <SelectItem
-                              key={option.value}
-                              value={option.value}
-                            >
+                            <SelectItem key={option.value} value={option.value}>
                               {option.label}
                             </SelectItem>
                           ))}
@@ -274,7 +263,9 @@ export const EventForm = () => {
                   />
                 </div>
 
-                <div className={dateType === 'range' ? 'col-span-4' : 'col-span-8'}>
+                <div
+                  className={dateType === 'range' ? 'col-span-4' : 'col-span-8'}
+                >
                   <FormField
                     control={form.control}
                     name='date_start'
@@ -365,7 +356,9 @@ export const EventForm = () => {
 
             {/* 8. Стоимость участия */}
             <div className='grid grid-cols-12 gap-4'>
-              <div className={costType === 'paid' ? 'col-span-6' : 'col-span-12'}>
+              <div
+                className={costType === 'paid' ? 'col-span-6' : 'col-span-12'}
+              >
                 <FormField
                   control={form.control}
                   name='cost_type'
@@ -383,10 +376,7 @@ export const EventForm = () => {
                         </FormControl>
                         <SelectContent>
                           {COST_TYPE_OPTIONS.map((option) => (
-                            <SelectItem
-                              key={option.value}
-                              value={option.value}
-                            >
+                            <SelectItem key={option.value} value={option.value}>
                               {option.label}
                             </SelectItem>
                           ))}
@@ -594,7 +584,7 @@ export const EventForm = () => {
             />
 
             <Button
-              className='mt-4 block w-full rounded-full bg-[#00A739] px-9 py-5 text-[15px] font-bold uppercase tracking-[0.08em] text-white transition-all duration-250 hover:-translate-y-0.5 hover:bg-black hover:text-white'
+              className='mt-4 block w-full rounded-full bg-[#00A739] px-9 py-5 text-[15px] font-bold tracking-[0.08em] text-white uppercase transition-all duration-250 hover:-translate-y-0.5 hover:bg-black hover:text-white'
               size='lg'
               type='submit'
             >
