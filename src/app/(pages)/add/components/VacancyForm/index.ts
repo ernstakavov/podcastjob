@@ -1,1 +1,1 @@
-export * from './VacancyForm';
+export * from './VacancyForm'

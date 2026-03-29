@@ -1,12 +1,12 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils'
 
 type TRecordingIndicatorProps = {
-  label: string;
-  className?: string;
-};
+  label: string
+  className?: string
+}
 
 export const RecordingIndicator = (props: TRecordingIndicatorProps) => {
-  const { label, className } = props;
+  const { label, className } = props
 
   return (
     <div
@@ -16,9 +16,9 @@ export const RecordingIndicator = (props: TRecordingIndicatorProps) => {
       )}
     >
       <div className='h-2 w-2 animate-[recording-pulse_1.5s_ease-in-out_infinite] rounded-full bg-red-600' />
-      <span className='text-xs font-semibold uppercase tracking-[0.15em] text-white'>
+      <span className='text-xs font-semibold tracking-[0.15em] text-white uppercase'>
         {label}
       </span>
     </div>
-  );
-};
+  )
+}

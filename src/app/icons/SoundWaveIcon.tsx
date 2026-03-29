@@ -1,11 +1,6 @@
 export const SoundWaveIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
-    <svg
-      width='200'
-      height='100'
-      viewBox='0 0 200 100'
-      {...props}
-    >
+    <svg width='200' height='100' viewBox='0 0 200 100' {...props}>
       <rect x='0' y='30' width='8' height='40' fill='#00A739' rx='4' />
       <rect x='20' y='20' width='8' height='60' fill='#00A739' rx='4' />
       <rect x='40' y='10' width='8' height='80' fill='#00A739' rx='4' />
@@ -15,5 +10,5 @@ export const SoundWaveIcon = (props: React.SVGProps<SVGSVGElement>) => {
       <rect x='120' y='30' width='8' height='40' fill='#00A739' rx='4' />
       <rect x='140' y='20' width='8' height='60' fill='#00A739' rx='4' />
     </svg>
-  );
-};
+  )
+}

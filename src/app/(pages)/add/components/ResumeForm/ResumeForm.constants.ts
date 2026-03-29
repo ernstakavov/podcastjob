@@ -1,31 +1,25 @@
-import { z } from 'zod';
-import { PODCAST_ROLES } from '@/lib/podcastRoles';
+import { z } from 'zod'
+import { PODCAST_ROLES } from '@/lib/podcastRoles'
 
-export { PODCAST_ROLES };
+export { PODCAST_ROLES }
 
 export const EMPLOYMENT_TYPES = [
   { label: 'Полная занятость', value: 'full-time' },
   { label: 'Частичная занятость', value: 'part-time' },
   { label: 'Проектная работа', value: 'project' },
   { label: 'Фриланс', value: 'freelance' },
-];
-
-export const WORK_FORMAT_TYPES = [
-  { label: 'Удалённо', value: 'remote' },
-  { label: 'Гибрид', value: 'hybrid' },
-  { label: 'Офис', value: 'office' },
-];
+]
 
 export const SALARY_TYPE_OPTIONS = [
   { label: 'Фиксированная', value: 'fixed' },
   { label: 'Вилка', value: 'range' },
-];
+]
 
 export const SALARY_PERIOD_OPTIONS = [
   { label: 'в месяц', value: 'monthly' },
   { label: 'за проект', value: 'per-project' },
   { label: 'в год', value: 'yearly' },
-];
+]
 
 export const RESUME_FORM_SCHEMA = z
   .object({
@@ -56,7 +50,10 @@ export const RESUME_FORM_SCHEMA = z
     experience: z.string().min(1, 'Обязательное поле'),
     achievements: z.string().optional(),
     skills: z.string().min(1, 'Обязательное поле'),
-    contact_email: z.string().min(1, 'Обязательное поле').email('Введите корректный email'),
+    contact_email: z
+      .string()
+      .min(1, 'Обязательное поле')
+      .email('Введите корректный email'),
     contact_phone: z.string().optional(),
     contact_telegram: z.string().optional(),
     contact_website: z.string().optional(),
@@ -64,9 +61,9 @@ export const RESUME_FORM_SCHEMA = z
   .refine(
     (data) => {
       if (data.salary_type === 'fixed') {
-        return typeof data.salary_fixed === 'number' && data.salary_fixed > 0;
+        return typeof data.salary_fixed === 'number' && data.salary_fixed > 0
       }
-      return true;
+      return true
     },
     {
       message: 'Укажите сумму',
@@ -76,9 +73,9 @@ export const RESUME_FORM_SCHEMA = z
   .refine(
     (data) => {
       if (data.salary_type === 'range') {
-        return typeof data.salary_from === 'number' && data.salary_from > 0;
+        return typeof data.salary_from === 'number' && data.salary_from > 0
       }
-      return true;
+      return true
     },
     {
       message: 'Укажите минимальную зарплату',
@@ -88,9 +85,9 @@ export const RESUME_FORM_SCHEMA = z
   .refine(
     (data) => {
       if (data.salary_type === 'range') {
-        return typeof data.salary_to === 'number' && data.salary_to > 0;
+        return typeof data.salary_to === 'number' && data.salary_to > 0
       }
-      return true;
+      return true
     },
     {
       message: 'Укажите максимальную зарплату',
@@ -104,15 +101,15 @@ export const RESUME_FORM_SCHEMA = z
         typeof data.salary_from === 'number' &&
         typeof data.salary_to === 'number'
       ) {
-        return data.salary_to >= data.salary_from;
+        return data.salary_to >= data.salary_from
       }
-      return true;
+      return true
     },
     {
       message: 'Максимальная зарплата должна быть больше или равна минимальной',
       path: ['salary_to'],
     },
-  );
+  )
 
 export const RESUME_FORM_DEFAULT_VALUES = {
   position: '',
@@ -132,4 +129,4 @@ export const RESUME_FORM_DEFAULT_VALUES = {
   contact_phone: '',
   contact_telegram: '',
   contact_website: '',
-};
+}

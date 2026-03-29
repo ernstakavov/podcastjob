@@ -1,12 +1,12 @@
-import { Footer } from '@/components/Footer';
-import { Header } from '@/components/Header';
-import { RecordingIndicator } from '@/components/RecordingIndicator';
-import { FormTab, FormTabs } from './components/FormTabs';
-import { DecorativeBackground } from './components/DecorativeBackground';
+import { Footer } from '@/components/Footer'
+import { Header } from '@/components/Header'
+import { RecordingIndicator } from '@/components/RecordingIndicator'
+import { FormTab, FormTabs } from './components/FormTabs'
+import { DecorativeBackground } from './components/DecorativeBackground'
 
-import { ResumeForm } from './components/ResumeForm';
-import { VacancyForm } from './components/VacancyForm';
-import { EventForm } from './components/EventForm';
+import { ResumeForm } from './components/ResumeForm'
+import { VacancyForm } from './components/VacancyForm'
+import { EventForm } from './components/EventForm'
 
 export const FORM_TABS: Record<string, FormTab> = {
   vacancy: {
@@ -24,7 +24,7 @@ export const FORM_TABS: Record<string, FormTab> = {
     value: 'event',
     component: <EventForm />,
   },
-};
+}
 
 export default function Add() {
   return (
@@ -35,7 +35,7 @@ export default function Add() {
         {/* Hero header */}
         <header className='mb-14 animate-[slide-in_0.6s_ease-out] text-center'>
           <RecordingIndicator label='Идет Набор' className='mb-6' />
-          <h1 className='mb-5 text-[clamp(48px,10vw,80px)] font-extrabold leading-[0.95] tracking-tight'>
+          <h1 className='mb-5 text-[clamp(48px,10vw,80px)] leading-[0.95] font-extrabold tracking-tight'>
             <span className='text-black'>Podcasts.ru</span>
             <br />
             <span className='text-[#00A739]'>Биржа Талантов</span>
@@ -54,5 +54,5 @@ export default function Add() {
       </main>
       <Footer className='mt-auto' />
     </div>
-  );
+  )
 }

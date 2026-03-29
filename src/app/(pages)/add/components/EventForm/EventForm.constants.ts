@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const EVENT_TYPE_OPTIONS = [
   { label: 'Конференция', value: 'conference' },
@@ -8,7 +8,7 @@ export const EVENT_TYPE_OPTIONS = [
   { label: 'Онлайн-стрим', value: 'online-stream' },
   { label: 'Опен-колл', value: 'open-call' },
   { label: 'Другое', value: 'other' },
-];
+]
 
 export const TARGET_AUDIENCE_OPTIONS = [
   { label: 'Продюсеры', value: 'producers' },
@@ -16,23 +16,23 @@ export const TARGET_AUDIENCE_OPTIONS = [
   { label: 'Ведущие', value: 'hosts' },
   { label: 'Новички индустрии', value: 'newcomers' },
   { label: 'Другое', value: 'other' },
-];
+]
 
 export const EVENT_FORMAT_OPTIONS = [
   { label: 'Оффлайн', value: 'offline' },
   { label: 'Онлайн', value: 'online' },
   { label: 'Гибрид', value: 'hybrid' },
-];
+]
 
 export const COST_TYPE_OPTIONS = [
   { label: 'Бесплатно', value: 'free' },
   { label: 'Платно', value: 'paid' },
-];
+]
 
 export const DATE_TYPE_OPTIONS = [
   { label: 'Одна дата', value: 'single' },
   { label: 'Период (от/до)', value: 'range' },
-];
+]
 
 export const EVENT_FORM_SCHEMA = z
   .object({
@@ -64,7 +64,11 @@ export const EVENT_FORM_SCHEMA = z
       .max(2000, 'Максимум 2000 символов')
       .optional(),
     website: z.string().optional(),
-    contact_email: z.string().email('Некорректный email').optional().or(z.literal('')),
+    contact_email: z
+      .string()
+      .email('Некорректный email')
+      .optional()
+      .or(z.literal('')),
     contact_telegram: z.string().optional(),
     contact_phone: z.string().optional(),
     registration_deadline: z.coerce.date().optional(),
@@ -72,9 +76,9 @@ export const EVENT_FORM_SCHEMA = z
   .refine(
     (data) => {
       if (data.event_format === 'offline' || data.event_format === 'hybrid') {
-        return !!data.location && data.location.trim().length > 0;
+        return !!data.location && data.location.trim().length > 0
       }
-      return true;
+      return true
     },
     {
       message: 'Укажите место проведения',
@@ -84,9 +88,9 @@ export const EVENT_FORM_SCHEMA = z
   .refine(
     (data) => {
       if (data.event_format === 'online') {
-        return !!data.location && data.location.trim().length > 0;
+        return !!data.location && data.location.trim().length > 0
       }
-      return true;
+      return true
     },
     {
       message: 'Укажите платформу (Zoom, Youtube и т.д.)',
@@ -96,9 +100,9 @@ export const EVENT_FORM_SCHEMA = z
   .refine(
     (data) => {
       if (data.date_type === 'range') {
-        return !!data.date_end;
+        return !!data.date_end
       }
-      return true;
+      return true
     },
     {
       message: 'Укажите дату окончания',
@@ -107,14 +111,10 @@ export const EVENT_FORM_SCHEMA = z
   )
   .refine(
     (data) => {
-      if (
-        data.date_type === 'range' &&
-        data.date_start &&
-        data.date_end
-      ) {
-        return data.date_end >= data.date_start;
+      if (data.date_type === 'range' && data.date_start && data.date_end) {
+        return data.date_end >= data.date_start
       }
-      return true;
+      return true
     },
     {
       message: 'Дата окончания должна быть позже даты начала',
@@ -124,15 +124,15 @@ export const EVENT_FORM_SCHEMA = z
   .refine(
     (data) => {
       if (data.cost_type === 'paid') {
-        return typeof data.cost_amount === 'number' && data.cost_amount > 0;
+        return typeof data.cost_amount === 'number' && data.cost_amount > 0
       }
-      return true;
+      return true
     },
     {
       message: 'Укажите стоимость',
       path: ['cost_amount'],
     },
-  );
+  )
 
 export const EVENT_FORM_DEFAULT_VALUES = {
   title: '',
@@ -153,4 +153,4 @@ export const EVENT_FORM_DEFAULT_VALUES = {
   contact_telegram: '',
   contact_phone: '',
   registration_deadline: undefined as unknown as Date | undefined,
-};
+}

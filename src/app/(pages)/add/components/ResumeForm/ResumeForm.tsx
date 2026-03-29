@@ -1,7 +1,7 @@
-'use client';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
+'use client'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as z from 'zod'
 import {
   Form,
   FormControl,
@@ -10,56 +10,55 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radiogroup';
-import { Textarea } from '@/components/ui/textarea';
+} from '@/components/ui/form'
+import { Card, CardContent } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radiogroup'
+import { Textarea } from '@/components/ui/textarea'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { MultiSelect } from '@/components/ui/multi-select';
+} from '@/components/ui/select'
+import { MultiSelect } from '@/components/ui/multi-select'
 import {
   PODCAST_ROLES,
   EMPLOYMENT_TYPES,
-  WORK_FORMAT_TYPES,
   SALARY_TYPE_OPTIONS,
   SALARY_PERIOD_OPTIONS,
   RESUME_FORM_SCHEMA,
-} from './ResumeForm.constants';
-import { toast } from 'sonner';
-import { createResume } from './ResumeForm.actions';
-import { getResumeFormTestValues } from '@/__tests__/mocks/formMocks';
-import { FormButton } from '@/components/form/FormButton';
+} from './ResumeForm.constants'
+import { WorkModeField } from '@/components/form/WorkModeField'
+import { toast } from 'sonner'
+import { createResume } from './ResumeForm.actions'
+import { getResumeFormTestValues } from '@/__tests__/mocks/formMocks'
+import { FormButton } from '@/components/form/FormButton'
 
 export const ResumeForm = () => {
   const form = useForm<z.infer<typeof RESUME_FORM_SCHEMA>>({
     resolver: zodResolver(RESUME_FORM_SCHEMA),
     defaultValues: getResumeFormTestValues(),
-  });
+  })
 
-  const salaryType = form.watch('salary_type');
-  const workFormat = form.watch('work_format');
+  const salaryType = form.watch('salary_type')
 
   async function onSubmit(values: z.infer<typeof RESUME_FORM_SCHEMA>) {
     try {
-      const result = await createResume(values);
+      const result = await createResume(values)
 
       if (result.success) {
-        toast.success('Резюме успешно создано!');
-        form.reset();
+        toast.success('Резюме успешно создано!')
+        form.reset()
       } else {
         toast.error(
           result.error || 'Не удалось создать резюме. Попробуйте снова.',
-        );
+        )
       }
     } catch (error) {
-      console.error('Form submission error', error);
-      toast.error('Не удалось отправить форму. Попробуйте снова.');
+      console.error('Form submission error', error)
+      toast.error('Не удалось отправить форму. Попробуйте снова.')
     }
   }
 
@@ -131,61 +130,11 @@ export const ResumeForm = () => {
             />
 
             {/* 4. Формат работы + город */}
-            <div className='grid grid-cols-12 gap-4'>
-              <div
-                className={
-                  workFormat === 'office' || workFormat === 'hybrid'
-                    ? 'col-span-6'
-                    : 'col-span-12'
-                }
-              >
-                <FormField
-                  control={form.control}
-                  name='work_format'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel required>Формат работы</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder='Выберите формат' />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {WORK_FORMAT_TYPES.map(({ label, value }) => (
-                            <SelectItem key={value} value={value}>
-                              {label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              {(workFormat === 'office' || workFormat === 'hybrid') && (
-                <div className='col-span-6'>
-                  <FormField
-                    control={form.control}
-                    name='city'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Город</FormLabel>
-                        <FormControl>
-                          <Input placeholder='Москва' type='text' {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              )}
-            </div>
+            <WorkModeField
+              control={form.control}
+              name='work_format'
+              cityName='city'
+            />
 
             {/* 5. Зарплата */}
             <div className='space-y-4'>
@@ -237,10 +186,10 @@ export const ResumeForm = () => {
                               {...field}
                               value={field.value ?? ''}
                               onChange={(e) => {
-                                const value = e.target.value;
+                                const value = e.target.value
                                 field.onChange(
                                   value === '' ? '' : Number(value),
-                                );
+                                )
                               }}
                             />
                           </FormControl>
@@ -265,10 +214,10 @@ export const ResumeForm = () => {
                                 {...field}
                                 value={field.value ?? ''}
                                 onChange={(e) => {
-                                  const value = e.target.value;
+                                  const value = e.target.value
                                   field.onChange(
                                     value === '' ? '' : Number(value),
-                                  );
+                                  )
                                 }}
                               />
                             </FormControl>
@@ -291,10 +240,10 @@ export const ResumeForm = () => {
                                 {...field}
                                 value={field.value ?? ''}
                                 onChange={(e) => {
-                                  const value = e.target.value;
+                                  const value = e.target.value
                                   field.onChange(
                                     value === '' ? '' : Number(value),
-                                  );
+                                  )
                                 }}
                               />
                             </FormControl>
@@ -474,5 +423,5 @@ export const ResumeForm = () => {
         </Form>
       </CardContent>
     </Card>
-  );
-};
+  )
+}

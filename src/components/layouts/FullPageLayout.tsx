@@ -1,11 +1,11 @@
-import { ReactNode } from 'react';
+import { ReactNode } from 'react'
 
 type TFullPageLayoutProps = {
-  children: ReactNode;
-};
+  children: ReactNode
+}
 
 export const FullPageLayout = (props: TFullPageLayoutProps) => {
-  const { children } = props;
+  const { children } = props
 
-  return <div className='h-screen'>{children}</div>;
-};
+  return <div className='h-screen'>{children}</div>
+}

@@ -46,4 +46,4 @@ export const LogoIcon: React.FC<{ className?: string }> = ({ className }) => (
       fill='white'
     />
   </svg>
-);
+)

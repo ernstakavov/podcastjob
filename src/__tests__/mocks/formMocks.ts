@@ -19,7 +19,7 @@ export function getVacancyFormTestValues() {
     working_conditions:
       'Удаленная работа, гибкий график, возможность профессионального роста, участие в интересных проектах',
     position: 'audio_production',
-  };
+  }
 }
 
 export function getResumeFormTestValues() {
@@ -44,5 +44,5 @@ export function getResumeFormTestValues() {
     contact_phone: '+7 (999) 123-45-67',
     contact_telegram: '@soundengineer',
     contact_website: '',
-  };
+  }
 }

@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import {
   FormControl,
@@ -7,19 +7,19 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import type { Control, FieldPath, FieldValues } from 'react-hook-form';
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import type { Control, FieldPath, FieldValues } from 'react-hook-form'
 
 type ContactFieldProps<TFieldValues extends FieldValues> = {
-  control: Control<TFieldValues>;
-  name: FieldPath<TFieldValues>;
-};
+  control: Control<TFieldValues>
+  name: FieldPath<TFieldValues>
+}
 
 export const ContactField = <TFieldValues extends FieldValues>(
   props: ContactFieldProps<TFieldValues>,
 ) => {
-  const { control, name } = props;
+  const { control, name } = props
 
   return (
     <FormField
@@ -36,5 +36,5 @@ export const ContactField = <TFieldValues extends FieldValues>(
         </FormItem>
       )}
     />
-  );
-};
+  )
+}

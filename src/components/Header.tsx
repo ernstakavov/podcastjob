@@ -1,11 +1,11 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { LogoIcon } from '@/app/icons/LogoIcon';
-import { Cross } from '@/app/icons/Cross';
+import { useState } from 'react'
+import { LogoIcon } from '@/app/icons/LogoIcon'
+import { Cross } from '@/app/icons/Cross'
 
 export const Header: React.FC = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false)
 
   return (
     <>
@@ -85,5 +85,5 @@ export const Header: React.FC = () => {
         </div>
       </nav>
     </>
-  );
-};
+  )
+}

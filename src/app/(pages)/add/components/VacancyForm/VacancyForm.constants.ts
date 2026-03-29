@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const VACANCY_FORM_SCHEMA = z
   .object({
@@ -26,7 +26,10 @@ export const VACANCY_FORM_SCHEMA = z
       .optional()
       .or(z.literal('')),
     salary_period: z.string().min(1, 'Обязательное поле'),
-    description: z.string().min(1, 'Обязательное поле').max(500, 'Максимум 500 символов'),
+    description: z
+      .string()
+      .min(1, 'Обязательное поле')
+      .max(500, 'Максимум 500 символов'),
     responsibilities: z
       .array(z.object({ value: z.string().min(1, 'Заполните пункт') }))
       .min(1, 'Добавьте хотя бы один пункт')
@@ -46,9 +49,9 @@ export const VACANCY_FORM_SCHEMA = z
   .refine(
     (data) => {
       if (data.salary_type === 'fixed') {
-        return typeof data.salary_fixed === 'number' && data.salary_fixed > 0;
+        return typeof data.salary_fixed === 'number' && data.salary_fixed > 0
       }
-      return true;
+      return true
     },
     {
       message: 'Укажите сумму',
@@ -58,9 +61,9 @@ export const VACANCY_FORM_SCHEMA = z
   .refine(
     (data) => {
       if (data.salary_type === 'range') {
-        return typeof data.salary_min === 'number' && data.salary_min > 0;
+        return typeof data.salary_min === 'number' && data.salary_min > 0
       }
-      return true;
+      return true
     },
     {
       message: 'Укажите минимальную зарплату',
@@ -70,9 +73,9 @@ export const VACANCY_FORM_SCHEMA = z
   .refine(
     (data) => {
       if (data.salary_type === 'range') {
-        return typeof data.salary_max === 'number' && data.salary_max > 0;
+        return typeof data.salary_max === 'number' && data.salary_max > 0
       }
-      return true;
+      return true
     },
     {
       message: 'Укажите максимальную зарплату',
@@ -86,15 +89,15 @@ export const VACANCY_FORM_SCHEMA = z
         typeof data.salary_min === 'number' &&
         typeof data.salary_max === 'number'
       ) {
-        return data.salary_max >= data.salary_min;
+        return data.salary_max >= data.salary_min
       }
-      return true;
+      return true
     },
     {
       message: 'Максимальная зарплата должна быть больше или равна минимальной',
       path: ['salary_max'],
     },
-  );
+  )
 
 export const VACANCY_FORM_DEFAULT_VALUES = {
   title: '',
@@ -116,7 +119,7 @@ export const VACANCY_FORM_DEFAULT_VALUES = {
   contact: '',
   attachments_info: '',
   close_date: new Date(Date.now() + 21 * 24 * 60 * 60 * 1000),
-};
+}
 
 export const ROLE_TYPES = [
   { label: 'Продюсер', value: 'producer' },
@@ -127,34 +130,28 @@ export const ROLE_TYPES = [
   { label: 'Маркетинг', value: 'marketing' },
   { label: 'Дистрибуция', value: 'distribution' },
   { label: 'Другое', value: 'other' },
-];
+]
 
 export const EMPLOYMENT_TYPES = [
   { label: 'Полная занятость', value: 'full-time' },
   { label: 'Частичная занятость', value: 'part-time' },
   { label: 'Проектная работа', value: 'project' },
   { label: 'Фриланс', value: 'freelance' },
-];
-
-export const WORK_MODE_TYPES = [
-  { label: 'Офис', value: 'office' },
-  { label: 'Гибрид', value: 'hybrid' },
-  { label: 'Удалённо', value: 'remote' },
-];
+]
 
 export const SCHEDULE_TYPES = [
   { label: 'Фиксированный', value: 'fixed' },
   { label: 'Гибкий', value: 'flexible' },
   { label: 'По проектам', value: 'project-based' },
-];
+]
 
 export const SALARY_TYPE_OPTIONS = [
   { label: 'Фиксированная', value: 'fixed' },
   { label: 'Вилка', value: 'range' },
-];
+]
 
 export const SALARY_PERIOD_OPTIONS = [
   { label: 'в месяц', value: 'monthly' },
   { label: 'за проект', value: 'per-project' },
   { label: 'в час', value: 'hourly' },
-];
+]

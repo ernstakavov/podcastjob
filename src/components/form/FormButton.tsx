@@ -1,4 +1,4 @@
-import { Button } from '../ui/button';
+import { Button } from '../ui/button'
 
 export const FormButton = () => {
   return (
@@ -9,5 +9,5 @@ export const FormButton = () => {
     >
       Опубликовать вакансию
     </Button>
-  );
-};
+  )
+}
