@@ -1,12 +1,12 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils'
 
 type TRecordingIndicatorProps = {
-  label: string;
-  className: string;
-};
+  label: string
+  className: string
+}
 
 export const RecordingIndicator = (props: TRecordingIndicatorProps) => {
-  const { label, className } = props;
+  const { label, className } = props
 
   return (
     <div
@@ -47,5 +47,5 @@ export const RecordingIndicator = (props: TRecordingIndicatorProps) => {
         {label}
       </span>
     </div>
-  );
-};
+  )
+}

@@ -1,8 +1,8 @@
-'use client';
-import { useForm, useFieldArray } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { Button } from '@/components/ui/button';
+'use client'
+import { useForm, useFieldArray } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as z from 'zod'
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -11,56 +11,57 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { ContactField } from '@/components/form/ContactField';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radiogroup';
+} from '@/components/ui/form'
+import { ContactField } from '@/components/form/ContactField'
+import { WorkModeField } from '@/components/form/WorkModeField'
+import { Card, CardContent } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radiogroup'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from '@/components/ui/select'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { format } from 'date-fns';
-import { CalendarIcon, Plus, X } from 'lucide-react';
-import { Calendar } from '@/components/ui/calendar';
-import { cn } from '@/lib/utils';
+} from '@/components/ui/popover'
+import { format } from 'date-fns'
+import { CalendarIcon, Plus, X } from 'lucide-react'
+import { Calendar } from '@/components/ui/calendar'
+import { cn } from '@/lib/utils'
 import {
   ROLE_TYPES,
   EMPLOYMENT_TYPES,
-  WORK_MODE_TYPES,
   SCHEDULE_TYPES,
   SALARY_TYPE_OPTIONS,
   SALARY_PERIOD_OPTIONS,
   VACANCY_FORM_SCHEMA,
   VACANCY_FORM_DEFAULT_VALUES,
-} from './VacancyForm.constants';
-import { toast } from 'sonner';
-import { createVacancy } from './VacancyForm.actions';
+} from './VacancyForm.constants'
+import { toast } from 'sonner'
+import { createVacancy } from './VacancyForm.actions'
+import { FormButton } from '@/components/form/FormButton'
 
-type FormValues = z.infer<typeof VACANCY_FORM_SCHEMA>;
+type FormValues = z.infer<typeof VACANCY_FORM_SCHEMA>
 
 const FieldArraySection = ({
   label,
   name,
   control,
 }: {
-  label: string;
-  name: 'responsibilities' | 'requirements' | 'working_conditions';
-  control: ReturnType<typeof useForm<FormValues>>['control'];
+  label: string
+  name: 'responsibilities' | 'requirements' | 'working_conditions'
+  control: ReturnType<typeof useForm<FormValues>>['control']
 }) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name,
-  });
+  })
 
   return (
     <div className='space-y-3'>
@@ -105,39 +106,38 @@ const FieldArraySection = ({
         </Button>
       )}
     </div>
-  );
-};
+  )
+}
 
 export const VacancyForm = () => {
   const form = useForm<FormValues>({
     resolver: zodResolver(VACANCY_FORM_SCHEMA),
     defaultValues: VACANCY_FORM_DEFAULT_VALUES,
-  });
+  })
 
-  const salaryType = form.watch('salary_type');
-  const workMode = form.watch('work_mode');
+  const salaryType = form.watch('salary_type')
 
   async function onSubmit(values: FormValues) {
     try {
-      const result = await createVacancy(values);
+      const result = await createVacancy(values)
 
       if (result.success) {
-        toast.success('Вакансия успешно создана!');
-        form.reset();
+        toast.success('Вакансия успешно создана!')
+        form.reset()
       } else {
         toast.error(
           result.error || 'Не удалось создать вакансию. Попробуйте снова.',
-        );
+        )
       }
     } catch (error) {
-      console.error('Form submission error', error);
-      toast.error('Не удалось отправить форму. Попробуйте снова.');
+      console.error('Form submission error', error)
+      toast.error('Не удалось отправить форму. Попробуйте снова.')
     }
   }
 
   return (
-    <Card className='mb-10 bg-white shadow-xl backdrop-blur-sm'>
-      <CardContent>
+    <Card className='relative mb-10 overflow-hidden rounded-[32px] border border-white/10 bg-transparent shadow-[0_20px_60px_rgba(0,0,0,0.15)] backdrop-blur-[20px]'>
+      <CardContent className='relative z-[2]'>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
             {/* 1. Название вакансии */}
@@ -156,35 +156,6 @@ export const VacancyForm = () => {
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* 2. Роль — Select */}
-            <FormField
-              control={form.control}
-              name='role'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel required>Роль</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder='Выберите роль' />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {ROLE_TYPES.map(({ label, value }) => (
-                        <SelectItem key={value} value={value}>
-                          {label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -210,32 +181,26 @@ export const VacancyForm = () => {
               )}
             />
 
-            {/* 4. Формат работы + город */}
             <div className='grid grid-cols-12 gap-4'>
-              <div
-                className={
-                  workMode === 'office' || workMode === 'hybrid'
-                    ? 'col-span-6'
-                    : 'col-span-12'
-                }
-              >
+              {/* 2. Роль — Select */}
+              <div className='col-span-4'>
                 <FormField
                   control={form.control}
-                  name='work_mode'
+                  name='role'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel required>Формат работы</FormLabel>
+                      <FormLabel required>Роль</FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder='Выберите формат' />
+                            <SelectValue placeholder='Выберите роль' />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {WORK_MODE_TYPES.map(({ label, value }) => (
+                          {ROLE_TYPES.map(({ label, value }) => (
                             <SelectItem key={value} value={value}>
                               {label}
                             </SelectItem>
@@ -248,81 +213,74 @@ export const VacancyForm = () => {
                 />
               </div>
 
-              {(workMode === 'office' || workMode === 'hybrid') && (
-                <div className='col-span-6'>
-                  <FormField
-                    control={form.control}
-                    name='city'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Город</FormLabel>
+              {/* 5. Тип занятости — Select */}
+              <div className='col-span-4'>
+                <FormField
+                  control={form.control}
+                  name='employment_type'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel required>Тип занятости</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
                         <FormControl>
-                          <Input placeholder='Москва' type='text' {...field} />
+                          <SelectTrigger>
+                            <SelectValue placeholder='Выберите тип занятости' />
+                          </SelectTrigger>
                         </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              )}
+                        <SelectContent>
+                          {EMPLOYMENT_TYPES.map(({ label, value }) => (
+                            <SelectItem key={value} value={value}>
+                              {label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {/* 6. График работы — Select */}
+              <div className='col-span-4'>
+                <FormField
+                  control={form.control}
+                  name='schedule'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel required>График работы</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder='Выберите график' />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {SCHEDULE_TYPES.map(({ label, value }) => (
+                            <SelectItem key={value} value={value}>
+                              {label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
 
-            {/* 5. Тип занятости — Select */}
-            <FormField
+            {/* 4. Формат работы + город */}
+            <WorkModeField
               control={form.control}
-              name='employment_type'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel required>Тип занятости</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder='Выберите тип занятости' />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {EMPLOYMENT_TYPES.map(({ label, value }) => (
-                        <SelectItem key={value} value={value}>
-                          {label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* 6. График работы — Select */}
-            <FormField
-              control={form.control}
-              name='schedule'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel required>График работы</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder='Выберите график' />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {SCHEDULE_TYPES.map(({ label, value }) => (
-                        <SelectItem key={value} value={value}>
-                          {label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
+              name='work_mode'
+              cityName='city'
             />
 
             {/* 7. Оплата: тип + сумма + период */}
@@ -375,10 +333,10 @@ export const VacancyForm = () => {
                               {...field}
                               value={field.value ?? ''}
                               onChange={(e) => {
-                                const value = e.target.value;
+                                const value = e.target.value
                                 field.onChange(
                                   value === '' ? '' : Number(value),
-                                );
+                                )
                               }}
                             />
                           </FormControl>
@@ -403,10 +361,10 @@ export const VacancyForm = () => {
                                 {...field}
                                 value={field.value ?? ''}
                                 onChange={(e) => {
-                                  const value = e.target.value;
+                                  const value = e.target.value
                                   field.onChange(
                                     value === '' ? '' : Number(value),
-                                  );
+                                  )
                                 }}
                               />
                             </FormControl>
@@ -429,10 +387,10 @@ export const VacancyForm = () => {
                                 {...field}
                                 value={field.value ?? ''}
                                 onChange={(e) => {
-                                  const value = e.target.value;
+                                  const value = e.target.value
                                   field.onChange(
                                     value === '' ? '' : Number(value),
-                                  );
+                                  )
                                 }}
                               />
                             </FormControl>
@@ -584,13 +542,10 @@ export const VacancyForm = () => {
                 </FormItem>
               )}
             />
-
-            <Button className='ml-auto block' size='lg' type='submit'>
-              Отправить
-            </Button>
+            <FormButton />
           </form>
         </Form>
       </CardContent>
     </Card>
-  );
-};
+  )
+}

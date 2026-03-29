@@ -1,14 +1,14 @@
-import { LogoIcon } from '@/app/icons/LogoIcon';
-import { TelegramIcon } from '@/app/icons/TelegramIcon';
-import { YoutubeIcon } from '@/app/icons/YoutubeIcon';
-import { cn } from '@/lib/utils';
+import { LogoIcon } from '@/app/icons/LogoIcon'
+import { TelegramIcon } from '@/app/icons/TelegramIcon'
+import { YoutubeIcon } from '@/app/icons/YoutubeIcon'
+import { cn } from '@/lib/utils'
 
 type FooterProps = {
-  className?: string;
-};
+  className?: string
+}
 
 export const Footer = (props: FooterProps) => {
-  const { className } = props;
+  const { className } = props
 
   return (
     <footer
@@ -58,5 +58,5 @@ export const Footer = (props: FooterProps) => {
         <a href='https://podcasts.ru/'>Podcasts.ru</a>
       </div>
     </footer>
-  );
-};
+  )
+}

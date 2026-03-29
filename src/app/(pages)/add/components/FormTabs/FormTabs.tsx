@@ -1,19 +1,19 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ReactNode } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { ReactNode } from 'react'
 
 export type FormTab = {
-  title: string;
-  value: string;
-  component: ReactNode;
-};
+  title: string
+  value: string
+  component: ReactNode
+}
 
 type FormTabsProps = {
-  defaultTab: FormTab;
-  tabs: Record<string, FormTab>;
-};
+  defaultTab: FormTab
+  tabs: Record<string, FormTab>
+}
 
 export const FormTabs = (props: FormTabsProps) => {
-  const { defaultTab, tabs } = props;
+  const { defaultTab, tabs } = props
 
   return (
     <>
@@ -32,5 +32,5 @@ export const FormTabs = (props: FormTabsProps) => {
         ))}
       </Tabs>
     </>
-  );
-};
+  )
+}

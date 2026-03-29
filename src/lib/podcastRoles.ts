@@ -7,4 +7,4 @@ export const PODCAST_ROLES = [
   { label: 'Маркетинг', value: 'marketing' },
   { label: 'Дистрибуция', value: 'distribution' },
   { label: 'Другое', value: 'other' },
-];
+]

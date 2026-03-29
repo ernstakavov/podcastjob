@@ -1,6 +1,6 @@
-import { Footer } from '@/components/Footer';
-import { Header } from '@/components/Header';
-import { PodcastJobBoard } from './components/PodcastJobsBrand';
+import { Footer } from '@/components/Footer'
+import { Header } from '@/components/Header'
+import { PodcastJobBoard } from './components/PodcastJobsBrand'
 
 export default function Example() {
   return (
@@ -11,5 +11,5 @@ export default function Example() {
       </main>
       <Footer className='mt-auto' />
     </div>
-  );
+  )
 }

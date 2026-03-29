@@ -5,4 +5,4 @@ export const Cross: React.FC<{ className?: string }> = ({ className }) => (
       fill='currentColor'
     />
   </svg>
-);
+)

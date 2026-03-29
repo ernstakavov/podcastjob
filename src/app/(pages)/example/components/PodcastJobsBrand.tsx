@@ -1,30 +1,30 @@
-'use client';
+'use client'
 
 // Подкаст Биржа Талантов - Фирменный стиль
 // Зелёный #00A739, белый #FFFFFF, чёрный #000000
 // Factor B для заголовков, Proxima Nova для текста
 
-import { useState } from 'react';
-import { RecordingIndicator } from './RecordingIndicator';
+import { useState } from 'react'
+import { RecordingIndicator } from './RecordingIndicator'
 
 export const PodcastJobBoard = () => {
-  const [activeTab, setActiveTab] = useState('vacancy');
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [displayTab, setDisplayTab] = useState('vacancy');
+  const [activeTab, setActiveTab] = useState('vacancy')
+  const [isTransitioning, setIsTransitioning] = useState(false)
+  const [displayTab, setDisplayTab] = useState('vacancy')
 
   const switchTab = (newTab) => {
-    if (newTab === activeTab || isTransitioning) return;
+    if (newTab === activeTab || isTransitioning) return
 
-    setIsTransitioning(true);
-    setActiveTab(newTab);
+    setIsTransitioning(true)
+    setActiveTab(newTab)
 
     setTimeout(() => {
-      setDisplayTab(newTab);
+      setDisplayTab(newTab)
       setTimeout(() => {
-        setIsTransitioning(false);
-      }, 50);
-    }, 250);
-  };
+        setIsTransitioning(false)
+      }, 50)
+    }, 250)
+  }
   const [vacancyForm, setVacancyForm] = useState({
     showTitle: '',
     company: '',
@@ -37,7 +37,7 @@ export const PodcastJobBoard = () => {
     episodeFrequency: 'weekly',
     genre: '',
     contact: '',
-  });
+  })
   const [resumeForm, setResumeForm] = useState({
     fullName: '',
     email: '',
@@ -49,7 +49,7 @@ export const PodcastJobBoard = () => {
     bio: '',
     equipment: '',
     sampleWork: '',
-  });
+  })
   const [eventsForm, setEventsForm] = useState({
     name: '',
     date: '',
@@ -57,7 +57,7 @@ export const PodcastJobBoard = () => {
     conditions: '',
     program: '',
     contacts: '',
-  });
+  })
 
   const roles = [
     'Ведущий',
@@ -68,7 +68,7 @@ export const PodcastJobBoard = () => {
     'Букер гостей',
     'SMM-менеджер',
     'Сценарист',
-  ];
+  ]
   const skills = [
     'Аудиомонтаж',
     'Интервьюирование',
@@ -78,7 +78,7 @@ export const PodcastJobBoard = () => {
     'Исследования',
     'Написание сценариев',
     'Живая запись',
-  ];
+  ]
   const genres = [
     'Тру-крайм',
     'Комедия',
@@ -90,19 +90,19 @@ export const PodcastJobBoard = () => {
     'Искусство и культура',
     'Образование',
     'Художественная проза',
-  ];
+  ]
 
   const handleVacancyChange = (field, value) => {
-    setVacancyForm((prev) => ({ ...prev, [field]: value }));
-  };
+    setVacancyForm((prev) => ({ ...prev, [field]: value }))
+  }
 
   const handleResumeChange = (field, value) => {
-    setResumeForm((prev) => ({ ...prev, [field]: value }));
-  };
+    setResumeForm((prev) => ({ ...prev, [field]: value }))
+  }
 
   const handleEventsChange = (field, value) => {
-    setEventsForm((prev) => ({ ...prev, [field]: value }));
-  };
+    setEventsForm((prev) => ({ ...prev, [field]: value }))
+  }
 
   const toggleSkill = (skill) => {
     setResumeForm((prev) => ({
@@ -110,8 +110,8 @@ export const PodcastJobBoard = () => {
       skills: prev.skills.includes(skill)
         ? prev.skills.filter((s) => s !== skill)
         : [...prev.skills, skill],
-    }));
-  };
+    }))
+  }
 
   const toggleRole = (role) => {
     setResumeForm((prev) => ({
@@ -119,8 +119,8 @@ export const PodcastJobBoard = () => {
       preferredRoles: prev.preferredRoles.includes(role)
         ? prev.preferredRoles.filter((r) => r !== role)
         : [...prev.preferredRoles, role],
-    }));
-  };
+    }))
+  }
 
   return (
     <div
@@ -531,15 +531,15 @@ export const PodcastJobBoard = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 function VacancyForm({ form, onChange, roles, genres }) {
   return (
     <form
       onSubmit={(e) => {
-        e.preventDefault();
-        alert('Вакансия успешно опубликована!');
+        e.preventDefault()
+        alert('Вакансия успешно опубликована!')
       }}
     >
       <div style={{ marginBottom: '36px' }}>
@@ -691,7 +691,7 @@ function VacancyForm({ form, onChange, roles, genres }) {
         <SubmitButton>Опубликовать вакансию</SubmitButton>
       </div>
     </form>
-  );
+  )
 }
 
 function ResumeForm({
@@ -705,8 +705,8 @@ function ResumeForm({
   return (
     <form
       onSubmit={(e) => {
-        e.preventDefault();
-        alert('Резюме успешно отправлено!');
+        e.preventDefault()
+        alert('Резюме успешно отправлено!')
       }}
     >
       <div style={{ marginBottom: '36px' }}>
@@ -879,15 +879,15 @@ function ResumeForm({
         <SubmitButton>Отправить резюме</SubmitButton>
       </div>
     </form>
-  );
+  )
 }
 
 function EventsForm({ form, onChange }) {
   return (
     <form
       onSubmit={(e) => {
-        e.preventDefault();
-        alert('Ивент успешно опубликован!');
+        e.preventDefault()
+        alert('Ивент успешно опубликован!')
       }}
     >
       <div style={{ marginBottom: '36px' }}>
@@ -976,7 +976,7 @@ function EventsForm({ form, onChange }) {
         <SubmitButton>Опубликовать ивент</SubmitButton>
       </div>
     </form>
-  );
+  )
 }
 
 function FormField({
@@ -1022,16 +1022,16 @@ function FormField({
           transition: 'all 0.2s ease',
         }}
         onFocus={(e) => {
-          e.target.style.borderColor = '#00A739';
-          e.target.style.background = 'rgba(255, 255, 255, 0.7)';
+          e.target.style.borderColor = '#00A739'
+          e.target.style.background = 'rgba(255, 255, 255, 0.7)'
         }}
         onBlur={(e) => {
-          e.target.style.borderColor = 'rgba(0, 0, 0, 0.15)';
-          e.target.style.background = 'rgba(255, 255, 255, 0.5)';
+          e.target.style.borderColor = 'rgba(0, 0, 0, 0.15)'
+          e.target.style.background = 'rgba(255, 255, 255, 0.5)'
         }}
       />
     </div>
-  );
+  )
 }
 
 function SelectField({
@@ -1094,7 +1094,7 @@ function SelectField({
         ))}
       </select>
     </div>
-  );
+  )
 }
 
 function TextAreaField({
@@ -1142,16 +1142,16 @@ function TextAreaField({
           transition: 'all 0.2s ease',
         }}
         onFocus={(e) => {
-          e.target.style.borderColor = '#00A739';
-          e.target.style.background = 'rgba(255, 255, 255, 0.7)';
+          e.target.style.borderColor = '#00A739'
+          e.target.style.background = 'rgba(255, 255, 255, 0.7)'
         }}
         onBlur={(e) => {
-          e.target.style.borderColor = 'rgba(0, 0, 0, 0.15)';
-          e.target.style.background = 'rgba(255, 255, 255, 0.5)';
+          e.target.style.borderColor = 'rgba(0, 0, 0, 0.15)'
+          e.target.style.background = 'rgba(255, 255, 255, 0.5)'
         }}
       />
     </div>
-  );
+  )
 }
 
 function CheckboxField({ label, checked, onChange }) {
@@ -1206,7 +1206,7 @@ function CheckboxField({ label, checked, onChange }) {
         {label}
       </span>
     </label>
-  );
+  )
 }
 
 function TagButton({ children, active, onClick }) {
@@ -1229,7 +1229,7 @@ function TagButton({ children, active, onClick }) {
     >
       {children}
     </button>
-  );
+  )
 }
 
 function SubmitButton({ children }) {
@@ -1253,17 +1253,17 @@ function SubmitButton({ children }) {
         transition: 'all 0.25s ease',
       }}
       onMouseEnter={(e) => {
-        e.target.style.background = '#000000';
-        e.target.style.color = '#FFFFFF';
-        e.target.style.transform = 'translateY(-2px)';
+        e.target.style.background = '#000000'
+        e.target.style.color = '#FFFFFF'
+        e.target.style.transform = 'translateY(-2px)'
       }}
       onMouseLeave={(e) => {
-        e.target.style.background = '#00A739';
-        e.target.style.color = '#FFFFFF';
-        e.target.style.transform = 'translateY(0)';
+        e.target.style.background = '#00A739'
+        e.target.style.color = '#FFFFFF'
+        e.target.style.transform = 'translateY(0)'
       }}
     >
       {children}
     </button>
-  );
+  )
 }

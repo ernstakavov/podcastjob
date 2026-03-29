@@ -1,1 +1,1 @@
-export * from './FormTabs';
+export * from './FormTabs'

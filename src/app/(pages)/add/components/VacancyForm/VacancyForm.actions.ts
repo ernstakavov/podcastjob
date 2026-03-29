@@ -1,13 +1,13 @@
-'use server';
+'use server'
 
-import { createClient } from '@/lib/supabase/server';
-import { revalidatePath } from 'next/cache';
-import type { VacancyInsert } from '@/server/db/schema';
-import type { z } from 'zod';
-import { VACANCY_FORM_SCHEMA } from './VacancyForm.constants';
+import { createClient } from '@/lib/supabase/server'
+import { revalidatePath } from 'next/cache'
+import type { VacancyInsert } from '@/server/db/schema'
+import type { z } from 'zod'
+import { VACANCY_FORM_SCHEMA } from './VacancyForm.constants'
 
 // Type for form values
-type VacancyFormValues = z.infer<typeof VACANCY_FORM_SCHEMA>;
+type VacancyFormValues = z.infer<typeof VACANCY_FORM_SCHEMA>
 
 // Map form values to database structure
 function mapFormToDb(
@@ -23,15 +23,18 @@ function mapFormToDb(
     schedule: formData.schedule,
     salary_type: formData.salary_type,
     salary_fixed:
-      formData.salary_type === 'fixed' && typeof formData.salary_fixed === 'number'
+      formData.salary_type === 'fixed' &&
+      typeof formData.salary_fixed === 'number'
         ? formData.salary_fixed
         : null,
     salary_min:
-      formData.salary_type === 'range' && typeof formData.salary_min === 'number'
+      formData.salary_type === 'range' &&
+      typeof formData.salary_min === 'number'
         ? formData.salary_min
         : null,
     salary_max:
-      formData.salary_type === 'range' && typeof formData.salary_max === 'number'
+      formData.salary_type === 'range' &&
+      typeof formData.salary_max === 'number'
         ? formData.salary_max
         : null,
     salary_period: formData.salary_period,
@@ -44,14 +47,14 @@ function mapFormToDb(
     close_date: formData.close_date
       ? formData.close_date.toISOString()
       : undefined,
-  };
+  }
 }
 
 export async function createVacancy(formData: VacancyFormValues) {
-  const supabase = createClient();
+  const supabase = createClient()
 
   // Map form data to database structure
-  const dbData = mapFormToDb(formData);
+  const dbData = mapFormToDb(formData)
 
   // Insert the vacancy
   const { data, error } = await supabase
@@ -61,38 +64,38 @@ export async function createVacancy(formData: VacancyFormValues) {
       ...dbData,
     })
     .select()
-    .single();
+    .single()
 
   if (error) {
-    console.error('Error creating vacancy:', error);
+    console.error('Error creating vacancy:', error)
     return {
       success: false,
       error: 'Failed to create vacancy. Please try again.',
-    };
+    }
   }
 
   // Revalidate the page to show the new vacancy
-  revalidatePath('/');
+  revalidatePath('/')
 
   return {
     success: true,
     data,
-  };
+  }
 }
 
 export async function updateVacancy(
   id: string,
   formData: Partial<VacancyFormValues>,
 ) {
-  const supabase = createClient();
+  const supabase = createClient()
 
   // Map form data to database structure
-  const dbData = mapFormToDb(formData as VacancyFormValues);
+  const dbData = mapFormToDb(formData as VacancyFormValues)
 
   // Remove undefined values
   const updateData = Object.fromEntries(
     Object.entries(dbData).filter(([, v]) => v !== undefined),
-  ) as Partial<Omit<VacancyInsert, 'created_at' | 'updated_at' | 'id'>>;
+  ) as Partial<Omit<VacancyInsert, 'created_at' | 'updated_at' | 'id'>>
 
   // Update the vacancy
   const { data, error } = await supabase
@@ -100,64 +103,64 @@ export async function updateVacancy(
     .update(updateData)
     .eq('id', id)
     .select()
-    .single();
+    .single()
 
   if (error) {
-    console.error('Error updating vacancy:', error);
+    console.error('Error updating vacancy:', error)
     return {
       success: false,
       error: 'Failed to update vacancy. Please try again.',
-    };
+    }
   }
 
-  revalidatePath('/');
+  revalidatePath('/')
 
   return {
     success: true,
     data,
-  };
+  }
 }
 
 export async function deleteVacancy(id: string) {
-  const supabase = createClient();
+  const supabase = createClient()
 
   // Delete the vacancy
-  const { error } = await supabase.from('vacancy').delete().eq('id', id);
+  const { error } = await supabase.from('vacancy').delete().eq('id', id)
 
   if (error) {
-    console.error('Error deleting vacancy:', error);
+    console.error('Error deleting vacancy:', error)
     return {
       success: false,
       error: 'Failed to delete vacancy. Please try again.',
-    };
+    }
   }
 
-  revalidatePath('/');
+  revalidatePath('/')
 
   return {
     success: true,
-  };
+  }
 }
 
 export async function getVacancies() {
-  const supabase = createClient();
+  const supabase = createClient()
 
   const { data, error } = await supabase
     .from('vacancy')
     .select('*')
-    .order('created_at', { ascending: false });
+    .order('created_at', { ascending: false })
 
   if (error) {
-    console.error('Error fetching vacancies:', error);
+    console.error('Error fetching vacancies:', error)
     return {
       success: false,
       error: 'Failed to fetch vacancies',
       data: [],
-    };
+    }
   }
 
   return {
     success: true,
     data,
-  };
+  }
 }

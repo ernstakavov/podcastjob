@@ -1,8 +1,8 @@
-'use client';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { Button } from '@/components/ui/button';
+'use client'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as z from 'zod'
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -11,27 +11,27 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+} from '@/components/ui/form'
+import { Card, CardContent } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
+} from '@/components/ui/popover'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { MultiSelect } from '@/components/ui/multi-select';
-import { format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
-import { Calendar } from '@/components/ui/calendar';
-import { cn } from '@/lib/utils';
+} from '@/components/ui/select'
+import { MultiSelect } from '@/components/ui/multi-select'
+import { format } from 'date-fns'
+import { CalendarIcon } from 'lucide-react'
+import { Calendar } from '@/components/ui/calendar'
+import { cn } from '@/lib/utils'
 import {
   EVENT_FORM_SCHEMA,
   EVENT_FORM_DEFAULT_VALUES,
@@ -40,47 +40,45 @@ import {
   EVENT_FORMAT_OPTIONS,
   COST_TYPE_OPTIONS,
   DATE_TYPE_OPTIONS,
-} from './EventForm.constants';
-import { toast } from 'sonner';
-import { createEvent } from './EventForm.actions';
+} from './EventForm.constants'
+import { toast } from 'sonner'
+import { createEvent } from './EventForm.actions'
+import { FormButton } from '@/components/form/FormButton'
 
 export const EventForm = () => {
   const form = useForm<z.infer<typeof EVENT_FORM_SCHEMA>>({
     resolver: zodResolver(EVENT_FORM_SCHEMA),
     defaultValues: EVENT_FORM_DEFAULT_VALUES,
-  });
+  })
 
-  const eventFormat = form.watch('event_format');
-  const dateType = form.watch('date_type');
-  const costType = form.watch('cost_type');
+  const eventFormat = form.watch('event_format')
+  const dateType = form.watch('date_type')
+  const costType = form.watch('cost_type')
 
   async function onSubmit(values: z.infer<typeof EVENT_FORM_SCHEMA>) {
     try {
-      const result = await createEvent(values);
+      const result = await createEvent(values)
 
       if (result.success) {
-        toast.success('Мероприятие успешно создано!');
-        form.reset();
+        toast.success('Мероприятие успешно создано!')
+        form.reset()
       } else {
         toast.error(
-          result.error ||
-            'Не удалось создать мероприятие. Попробуйте снова.',
-        );
+          result.error || 'Не удалось создать мероприятие. Попробуйте снова.',
+        )
       }
     } catch (error) {
-      console.error('Form submission error', error);
-      toast.error('Не удалось отправить форму. Попробуйте снова.');
+      console.error('Form submission error', error)
+      toast.error('Не удалось отправить форму. Попробуйте снова.')
     }
   }
 
   const locationPlaceholder =
-    eventFormat === 'online'
-      ? 'Zoom, Youtube, и т.д.'
-      : 'Страна, город, адрес';
+    eventFormat === 'online' ? 'Zoom, Youtube, и т.д.' : 'Страна, город, адрес'
 
   return (
-    <Card className='mb-10 bg-white shadow-xl backdrop-blur-sm'>
-      <CardContent>
+    <Card className='relative mb-10 overflow-hidden rounded-[32px] border border-white/10 bg-transparent shadow-[0_20px_60px_rgba(0,0,0,0.15)] backdrop-blur-[20px]'>
+      <CardContent className='relative z-[2]'>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
             {/* 1. Название мероприятия */}
@@ -122,10 +120,7 @@ export const EventForm = () => {
                         </FormControl>
                         <SelectContent>
                           {EVENT_TYPE_OPTIONS.map((option) => (
-                            <SelectItem
-                              key={option.value}
-                              value={option.value}
-                            >
+                            <SelectItem key={option.value} value={option.value}>
                               {option.label}
                             </SelectItem>
                           ))}
@@ -198,10 +193,7 @@ export const EventForm = () => {
                         </FormControl>
                         <SelectContent>
                           {EVENT_FORMAT_OPTIONS.map((option) => (
-                            <SelectItem
-                              key={option.value}
-                              value={option.value}
-                            >
+                            <SelectItem key={option.value} value={option.value}>
                               {option.label}
                             </SelectItem>
                           ))}
@@ -272,7 +264,9 @@ export const EventForm = () => {
                   />
                 </div>
 
-                <div className={dateType === 'range' ? 'col-span-4' : 'col-span-8'}>
+                <div
+                  className={dateType === 'range' ? 'col-span-4' : 'col-span-8'}
+                >
                   <FormField
                     control={form.control}
                     name='date_start'
@@ -363,7 +357,9 @@ export const EventForm = () => {
 
             {/* 8. Стоимость участия */}
             <div className='grid grid-cols-12 gap-4'>
-              <div className={costType === 'paid' ? 'col-span-6' : 'col-span-12'}>
+              <div
+                className={costType === 'paid' ? 'col-span-6' : 'col-span-12'}
+              >
                 <FormField
                   control={form.control}
                   name='cost_type'
@@ -381,10 +377,7 @@ export const EventForm = () => {
                         </FormControl>
                         <SelectContent>
                           {COST_TYPE_OPTIONS.map((option) => (
-                            <SelectItem
-                              key={option.value}
-                              value={option.value}
-                            >
+                            <SelectItem key={option.value} value={option.value}>
                               {option.label}
                             </SelectItem>
                           ))}
@@ -590,13 +583,10 @@ export const EventForm = () => {
                 </FormItem>
               )}
             />
-
-            <Button className='ml-auto block' size='lg' type='submit'>
-              Отправить
-            </Button>
+            <FormButton />
           </form>
         </Form>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
