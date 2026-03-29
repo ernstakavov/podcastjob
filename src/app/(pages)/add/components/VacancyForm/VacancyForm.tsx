@@ -45,6 +45,7 @@ import {
 } from './VacancyForm.constants';
 import { toast } from 'sonner';
 import { createVacancy } from './VacancyForm.actions';
+import { FormButton } from '@/components/form/FormButton';
 
 type FormValues = z.infer<typeof VACANCY_FORM_SCHEMA>;
 
@@ -584,14 +585,7 @@ export const VacancyForm = () => {
                 </FormItem>
               )}
             />
-
-            <Button
-              className='mt-4 block w-full rounded-full bg-[#00A739] text-[15px] font-bold text-white uppercase transition-all duration-250 hover:bg-black hover:text-white'
-              size='lg'
-              type='submit'
-            >
-              Опубликовать вакансию
-            </Button>
+            <FormButton />
           </form>
         </Form>
       </CardContent>

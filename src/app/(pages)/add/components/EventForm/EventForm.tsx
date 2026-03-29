@@ -43,6 +43,7 @@ import {
 } from './EventForm.constants';
 import { toast } from 'sonner';
 import { createEvent } from './EventForm.actions';
+import { FormButton } from '@/components/form/FormButton';
 
 export const EventForm = () => {
   const form = useForm<z.infer<typeof EVENT_FORM_SCHEMA>>({
@@ -582,14 +583,7 @@ export const EventForm = () => {
                 </FormItem>
               )}
             />
-
-            <Button
-              className='mt-4 block w-full rounded-full bg-[#00A739] px-9 py-5 text-[15px] font-bold tracking-[0.08em] text-white uppercase transition-all duration-250 hover:-translate-y-0.5 hover:bg-black hover:text-white'
-              size='lg'
-              type='submit'
-            >
-              Опубликовать ивент
-            </Button>
+            <FormButton />
           </form>
         </Form>
       </CardContent>

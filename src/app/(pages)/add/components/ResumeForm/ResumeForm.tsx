@@ -2,7 +2,6 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -35,6 +34,7 @@ import {
 import { toast } from 'sonner';
 import { createResume } from './ResumeForm.actions';
 import { getResumeFormTestValues } from '@/__tests__/mocks/formMocks';
+import { FormButton } from '@/components/form/FormButton';
 
 export const ResumeForm = () => {
   const form = useForm<z.infer<typeof RESUME_FORM_SCHEMA>>({
@@ -469,14 +469,7 @@ export const ResumeForm = () => {
                 />
               </div>
             </div>
-
-            <Button
-              className='mt-4 block w-full rounded-full bg-[#00A739] px-9 py-5 text-[15px] font-bold tracking-[0.08em] text-white uppercase transition-all duration-250 hover:-translate-y-0.5 hover:bg-black hover:text-white'
-              size='lg'
-              type='submit'
-            >
-              Отправить резюме
-            </Button>
+            <FormButton />
           </form>
         </Form>
       </CardContent>
