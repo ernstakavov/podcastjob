@@ -140,6 +140,14 @@ export const VacancyForm = () => {
       <CardContent className='relative z-[2]'>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+            {/* Секция: Должность */}
+            <div>
+              <h6 className='mb-1'>Должность</h6>
+              <p className='text-muted-foreground text-sm'>
+                Укажите название вакансии, роль и работодателя.
+              </p>
+            </div>
+
             {/* 1. Название вакансии */}
             <FormField
               control={form.control}
@@ -180,6 +188,14 @@ export const VacancyForm = () => {
                 </FormItem>
               )}
             />
+
+            {/* Секция: Занятость */}
+            <div>
+              <h6 className='mb-1'>Занятость</h6>
+              <p className='text-muted-foreground text-sm'>
+                Выберите роль, тип занятости, график и формат работы.
+              </p>
+            </div>
 
             <div className='grid grid-cols-12 gap-4'>
               {/* 2. Роль — Select */}
@@ -282,6 +298,14 @@ export const VacancyForm = () => {
               name='work_mode'
               cityName='city'
             />
+
+            {/* Секция: Оплата */}
+            <div>
+              <h6 className='mb-1'>Оплата</h6>
+              <p className='text-muted-foreground text-sm'>
+                Укажите тип оплаты, сумму и период выплат.
+              </p>
+            </div>
 
             {/* 7. Оплата: тип + сумма + период */}
             <div className='space-y-4'>
@@ -434,6 +458,15 @@ export const VacancyForm = () => {
               </div>
             </div>
 
+            {/* Секция: Описание вакансии */}
+            <div>
+              <h6 className='mb-1'>Описание вакансии</h6>
+              <p className='text-muted-foreground text-sm'>
+                Расскажите подробнее о вакансии: обязанности, требования и
+                условия.
+              </p>
+            </div>
+
             {/* 8. Короткое описание */}
             <FormField
               control={form.control}
@@ -476,6 +509,14 @@ export const VacancyForm = () => {
               name='working_conditions'
               control={form.control}
             />
+
+            {/* Секция: Контакты */}
+            <div>
+              <h6 className='mb-1'>Контакты</h6>
+              <p className='text-muted-foreground text-sm'>
+                Укажите, как с вами связаться и что приложить к отклику.
+              </p>
+            </div>
 
             {/* 12. Как откликнуться */}
             <ContactField control={form.control} name='contact' />
