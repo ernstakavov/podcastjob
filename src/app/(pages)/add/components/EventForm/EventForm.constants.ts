@@ -74,26 +74,9 @@ export const EVENT_FORM_SCHEMA = z
     registration_deadline: z.coerce.date().optional(),
   })
   .refine(
-    (data) => {
-      if (data.event_format === 'offline' || data.event_format === 'hybrid') {
-        return !!data.location && data.location.trim().length > 0
-      }
-      return true
-    },
+    (data) => !!data.location && data.location.trim().length > 0,
     {
-      message: 'Укажите место проведения',
-      path: ['location'],
-    },
-  )
-  .refine(
-    (data) => {
-      if (data.event_format === 'online') {
-        return !!data.location && data.location.trim().length > 0
-      }
-      return true
-    },
-    {
-      message: 'Укажите платформу (Zoom, Youtube и т.д.)',
+      message: 'Укажите место проведения или платформу',
       path: ['location'],
     },
   )

@@ -2,7 +2,6 @@ import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
 import { RecordingIndicator } from '@/components/RecordingIndicator'
 import { FormTab, FormTabs } from './components/FormTabs'
-import { DecorativeBackground } from './components/DecorativeBackground'
 
 import { ResumeForm } from './components/ResumeForm'
 import { VacancyForm } from './components/VacancyForm'
@@ -30,7 +29,6 @@ export default function Add() {
   return (
     <div className='grid min-h-screen overflow-hidden bg-white font-[family-name:var(--font-geist-sans)]'>
       <Header />
-      <DecorativeBackground />
       <main className='relative z-[2] mx-auto mt-10 w-full max-w-[900px] px-6 pb-24'>
         {/* Hero header */}
         <header className='mb-14 animate-[slide-in_0.6s_ease-out] text-center'>

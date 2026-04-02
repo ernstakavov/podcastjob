@@ -21,8 +21,8 @@ function mapFormToDb(
     event_format: formData.event_format,
     location: formData.location || null,
     date_type: formData.date_type,
-    date_start: formData.date_start.toISOString(),
-    date_end: formData.date_end ? formData.date_end.toISOString() : null,
+    date_start: formData.date_start?.toISOString(),
+    date_end: formData.date_end?.toISOString() ?? null,
     cost_type: formData.cost_type,
     cost_amount:
       formData.cost_type === 'paid' && typeof formData.cost_amount === 'number'
@@ -34,9 +34,7 @@ function mapFormToDb(
     contact_email: formData.contact_email || null,
     contact_telegram: formData.contact_telegram || null,
     contact_phone: formData.contact_phone || null,
-    registration_deadline: formData.registration_deadline
-      ? formData.registration_deadline.toISOString()
-      : null,
+    registration_deadline: formData.registration_deadline?.toISOString() ?? null,
   }
 }
 

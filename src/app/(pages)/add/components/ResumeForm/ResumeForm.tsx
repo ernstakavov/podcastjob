@@ -21,13 +21,13 @@ import { SalaryField } from '@/components/form/SalaryField'
 import { WorkModeField } from '@/components/form/WorkModeField'
 import { toast } from 'sonner'
 import { createResume } from './ResumeForm.actions'
-import { getResumeFormTestValues } from '@/__tests__/mocks/formMocks'
+import { RESUME_FORM_DEFAULT_VALUES } from './ResumeForm.constants'
 import { FormButton } from '@/components/form/FormButton'
 
 export const ResumeForm = () => {
   const form = useForm<z.infer<typeof RESUME_FORM_SCHEMA>>({
     resolver: zodResolver(RESUME_FORM_SCHEMA),
-    defaultValues: getResumeFormTestValues(),
+    defaultValues: RESUME_FORM_DEFAULT_VALUES,
   })
 
   async function onSubmit(values: z.infer<typeof RESUME_FORM_SCHEMA>) {
