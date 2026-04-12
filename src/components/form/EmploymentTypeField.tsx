@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/select'
 import { MultiSelect } from '@/components/ui/multi-select'
 import type { Control, FieldPath, FieldValues } from 'react-hook-form'
+import type { SelectOption } from './types'
 
 export const EMPLOYMENT_TYPES = [
   { label: 'Полная занятость', value: 'full-time' },
@@ -23,11 +24,6 @@ export const EMPLOYMENT_TYPES = [
   { label: 'Проектная работа', value: 'project' },
   { label: 'Фриланс', value: 'freelance' },
 ]
-
-type SelectOption = {
-  label: string
-  value: string
-}
 
 type EmploymentTypeFieldProps<TFieldValues extends FieldValues> = {
   control: Control<TFieldValues>

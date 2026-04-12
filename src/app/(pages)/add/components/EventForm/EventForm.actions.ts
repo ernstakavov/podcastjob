@@ -21,7 +21,7 @@ function mapFormToDb(
     event_format: formData.event_format,
     location: formData.location || null,
     date_type: formData.date_type,
-    date_start: formData.date_start?.toISOString(),
+    date_start: formData.date_start.toISOString(),
     date_end: formData.date_end?.toISOString() ?? null,
     cost_type: formData.cost_type,
     cost_amount:

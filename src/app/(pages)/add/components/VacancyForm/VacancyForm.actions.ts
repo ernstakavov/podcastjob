@@ -44,7 +44,7 @@ function mapFormToDb(
     working_conditions: formData.working_conditions?.map((item) => item.value),
     contact: formData.contact,
     attachments_info: formData.attachments_info || null,
-    close_date: formData.close_date?.toISOString() ?? null,
+    close_date: formData.close_date.toISOString(),
   }
 }
 

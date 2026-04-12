@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/select'
 import type { Control, FieldPath, FieldValues } from 'react-hook-form'
 import { useWatch } from 'react-hook-form'
+import type { SelectOption } from './types'
 
 export const SALARY_TYPE_OPTIONS = [
   { label: 'Фиксированная', value: 'fixed' },
@@ -30,11 +31,6 @@ export const SALARY_PERIOD_OPTIONS = [
   { label: 'в час', value: 'hourly' },
   { label: 'в год', value: 'yearly' },
 ]
-
-type SelectOption = {
-  label: string
-  value: string
-}
 
 type SalaryFieldProps<TFieldValues extends FieldValues> = {
   control: Control<TFieldValues>
