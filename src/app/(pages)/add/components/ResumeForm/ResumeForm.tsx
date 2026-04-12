@@ -13,36 +13,22 @@ import {
 } from '@/components/ui/form'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radiogroup'
 import { Textarea } from '@/components/ui/textarea'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import { MultiSelect } from '@/components/ui/multi-select'
-import {
-  PODCAST_ROLES,
-  EMPLOYMENT_TYPES,
-  SALARY_TYPE_OPTIONS,
-  SALARY_PERIOD_OPTIONS,
-  RESUME_FORM_SCHEMA,
-} from './ResumeForm.constants'
+import { RESUME_FORM_SCHEMA } from './ResumeForm.constants'
+import { EmploymentTypeField } from '@/components/form/EmploymentTypeField'
+import { RoleField } from '@/components/form/RoleField'
+import { SalaryField } from '@/components/form/SalaryField'
 import { WorkModeField } from '@/components/form/WorkModeField'
 import { toast } from 'sonner'
 import { createResume } from './ResumeForm.actions'
-import { getResumeFormTestValues } from '@/__tests__/mocks/formMocks'
+import { RESUME_FORM_DEFAULT_VALUES } from './ResumeForm.constants'
 import { FormButton } from '@/components/form/FormButton'
 
 export const ResumeForm = () => {
   const form = useForm<z.infer<typeof RESUME_FORM_SCHEMA>>({
     resolver: zodResolver(RESUME_FORM_SCHEMA),
-    defaultValues: getResumeFormTestValues(),
+    defaultValues: RESUME_FORM_DEFAULT_VALUES,
   })
-
-  const salaryType = form.watch('salary_type')
 
   async function onSubmit(values: z.infer<typeof RESUME_FORM_SCHEMA>) {
     try {
@@ -63,7 +49,7 @@ export const ResumeForm = () => {
   }
 
   return (
-    <Card className='relative mb-10 overflow-hidden rounded-[32px] border border-white/10 bg-transparent shadow-[0_20px_60px_rgba(0,0,0,0.15)] backdrop-blur-[20px]'>
+    <Card className='relative mb-10 overflow-hidden rounded-[32px] border border-white/10 bg-white shadow-[0_20px_60px_rgba(0,0,0,0.15)] backdrop-blur-[20px]'>
       <CardContent className='relative z-[2]'>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
@@ -90,43 +76,13 @@ export const ResumeForm = () => {
             />
 
             {/* 2. Роль в подкаст-индустрии */}
-            <FormField
-              control={form.control}
-              name='roles'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel required>Роль в подкаст-индустрии</FormLabel>
-                  <FormControl>
-                    <MultiSelect
-                      options={PODCAST_ROLES}
-                      value={field.value}
-                      onValueChange={field.onChange}
-                      placeholder='Выберите роли'
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <RoleField control={form.control} name='roles' multi />
 
             {/* 3. Занятость */}
-            <FormField
+            <EmploymentTypeField
               control={form.control}
               name='employment_type'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel required>Занятость</FormLabel>
-                  <FormControl>
-                    <MultiSelect
-                      options={EMPLOYMENT_TYPES}
-                      value={field.value}
-                      onValueChange={field.onChange}
-                      placeholder='Выберите тип занятости'
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              multi
             />
 
             {/* 4. Формат работы + город */}
@@ -137,155 +93,14 @@ export const ResumeForm = () => {
             />
 
             {/* 5. Зарплата */}
-            <div className='space-y-4'>
-              <FormField
-                control={form.control}
-                name='salary_type'
-                render={({ field }) => (
-                  <FormItem className='space-y-3'>
-                    <FormLabel required>Оплата</FormLabel>
-                    <FormControl>
-                      <RadioGroup
-                        onValueChange={field.onChange}
-                        value={field.value}
-                        className='flex space-x-4'
-                      >
-                        {SALARY_TYPE_OPTIONS.map(({ label, value }) => (
-                          <FormItem
-                            className='flex items-center space-y-0 space-x-2'
-                            key={value}
-                          >
-                            <FormControl>
-                              <RadioGroupItem value={value} />
-                            </FormControl>
-                            <FormLabel className='font-normal'>
-                              {label}
-                            </FormLabel>
-                          </FormItem>
-                        ))}
-                      </RadioGroup>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <div className='grid grid-cols-12 gap-4'>
-                {salaryType === 'fixed' ? (
-                  <div className='col-span-6'>
-                    <FormField
-                      control={form.control}
-                      name='salary_fixed'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel required>Сумма</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder='50 000'
-                              type='number'
-                              {...field}
-                              value={field.value ?? ''}
-                              onChange={(e) => {
-                                const value = e.target.value
-                                field.onChange(
-                                  value === '' ? '' : Number(value),
-                                )
-                              }}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                ) : (
-                  <>
-                    <div className='col-span-3'>
-                      <FormField
-                        control={form.control}
-                        name='salary_from'
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel required>От</FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder='50 000'
-                                type='number'
-                                {...field}
-                                value={field.value ?? ''}
-                                onChange={(e) => {
-                                  const value = e.target.value
-                                  field.onChange(
-                                    value === '' ? '' : Number(value),
-                                  )
-                                }}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <div className='col-span-3'>
-                      <FormField
-                        control={form.control}
-                        name='salary_to'
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel required>До</FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder='100 000'
-                                type='number'
-                                {...field}
-                                value={field.value ?? ''}
-                                onChange={(e) => {
-                                  const value = e.target.value
-                                  field.onChange(
-                                    value === '' ? '' : Number(value),
-                                  )
-                                }}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  </>
-                )}
-
-                <div className='col-span-6'>
-                  <FormField
-                    control={form.control}
-                    name='salary_period'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel required>Период</FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder='Выберите период' />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {SALARY_PERIOD_OPTIONS.map(({ label, value }) => (
-                              <SelectItem key={value} value={value}>
-                                {label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-            </div>
+            <SalaryField
+              control={form.control}
+              typeName='salary_type'
+              fixedName='salary_fixed'
+              minName='salary_from'
+              maxName='salary_to'
+              periodName='salary_period'
+            />
 
             {/* 6. Опыт */}
             <FormField
