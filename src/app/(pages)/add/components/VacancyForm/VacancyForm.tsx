@@ -39,7 +39,7 @@ import { cn } from '@/lib/utils'
 import {
   SCHEDULE_TYPES,
   VACANCY_FORM_SCHEMA,
-  VACANCY_FORM_DEFAULT_VALUES,
+  getVacancyFormDefaultValues,
 } from './VacancyForm.constants'
 import { toast } from 'sonner'
 import { createVacancy } from './VacancyForm.actions'
@@ -110,7 +110,7 @@ const FieldArraySection = ({
 export const VacancyForm = () => {
   const form = useForm<FormValues>({
     resolver: zodResolver(VACANCY_FORM_SCHEMA),
-    defaultValues: VACANCY_FORM_DEFAULT_VALUES,
+    defaultValues: getVacancyFormDefaultValues(),
   })
 
   async function onSubmit(values: FormValues) {

@@ -50,7 +50,7 @@ export const VACANCY_FORM_SCHEMA = z
       .max(10, 'Максимум 10 пунктов'),
     contact: z.string().min(1, 'Обязательное поле'),
     attachments_info: z.string().optional(),
-    close_date: z.coerce.date().optional(),
+    close_date: z.coerce.date(),
   })
   .refine(
     (data) => {
@@ -105,7 +105,7 @@ export const VACANCY_FORM_SCHEMA = z
     },
   )
 
-export const VACANCY_FORM_DEFAULT_VALUES = {
+export const getVacancyFormDefaultValues = () => ({
   title: '',
   role: '',
   employer: '',
@@ -125,4 +125,4 @@ export const VACANCY_FORM_DEFAULT_VALUES = {
   contact: '',
   attachments_info: '',
   close_date: new Date(Date.now() + 21 * 24 * 60 * 60 * 1000),
-}
+})
