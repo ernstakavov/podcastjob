@@ -39,14 +39,12 @@ function mapFormToDb(
         : null,
     salary_period: formData.salary_period,
     description: formData.description,
-    responsibilities: formData.responsibilities.map((item) => item.value),
-    requirements: formData.requirements.map((item) => item.value),
-    working_conditions: formData.working_conditions.map((item) => item.value),
+    responsibilities: formData.responsibilities?.map((item) => item.value),
+    requirements: formData.requirements?.map((item) => item.value),
+    working_conditions: formData.working_conditions?.map((item) => item.value),
     contact: formData.contact,
     attachments_info: formData.attachments_info || null,
-    close_date: formData.close_date
-      ? formData.close_date.toISOString()
-      : undefined,
+    close_date: formData.close_date.toISOString(),
     status: 'pending',
   }
 }

@@ -1,5 +1,11 @@
 import { z } from 'zod'
 
+export const SCHEDULE_TYPES = [
+  { label: 'Фиксированный', value: 'fixed' },
+  { label: 'Гибкий', value: 'flexible' },
+  { label: 'По проектам', value: 'project-based' },
+]
+
 export const VACANCY_FORM_SCHEMA = z
   .object({
     title: z.string().min(1, 'Обязательное поле'),
@@ -44,7 +50,7 @@ export const VACANCY_FORM_SCHEMA = z
       .max(10, 'Максимум 10 пунктов'),
     contact: z.string().min(1, 'Обязательное поле'),
     attachments_info: z.string().optional(),
-    close_date: z.coerce.date().optional(),
+    close_date: z.coerce.date(),
   })
   .refine(
     (data) => {
@@ -99,11 +105,11 @@ export const VACANCY_FORM_SCHEMA = z
     },
   )
 
-export const VACANCY_FORM_DEFAULT_VALUES = {
-  title: 'Подкаст-продюсер',
-  role: 'production',
-  employer: 'Тестовая Подкаст Студия',
-  work_mode: 'remote',
+export const getVacancyFormDefaultValues = () => ({
+  title: '',
+  role: '',
+  employer: '',
+  work_mode: '',
   city: '',
   employment_type: 'full-time',
   schedule: 'flexible',
@@ -124,7 +130,10 @@ export const VACANCY_FORM_DEFAULT_VALUES = {
   requirements: [
     { value: 'Опыт работы в подкаст-индустрии не менее 2 лет' },
     { value: 'Знание основ звукозаписи и монтажа' },
-    { value: 'Умение работать с аудио-редакторами (Audacity, Adobe Audition, Pro Tools)' },
+    {
+      value:
+        'Умение работать с аудио-редакторами (Audacity, Adobe Audition, Pro Tools)',
+    },
     { value: 'Навыки работы с гостями и интервью' },
   ],
   working_conditions: [
@@ -136,39 +145,4 @@ export const VACANCY_FORM_DEFAULT_VALUES = {
   contact: 'test@example.com',
   attachments_info: '',
   close_date: new Date(Date.now() + 21 * 24 * 60 * 60 * 1000),
-}
-
-export const ROLE_TYPES = [
-  { label: 'Продюсер', value: 'producer' },
-  { label: 'Монтаж', value: 'editing' },
-  { label: 'Редактор', value: 'editor' },
-  { label: 'Ведущий', value: 'host' },
-  { label: 'Продакшн', value: 'production' },
-  { label: 'Маркетинг', value: 'marketing' },
-  { label: 'Дистрибуция', value: 'distribution' },
-  { label: 'Другое', value: 'other' },
-]
-
-export const EMPLOYMENT_TYPES = [
-  { label: 'Полная занятость', value: 'full-time' },
-  { label: 'Частичная занятость', value: 'part-time' },
-  { label: 'Проектная работа', value: 'project' },
-  { label: 'Фриланс', value: 'freelance' },
-]
-
-export const SCHEDULE_TYPES = [
-  { label: 'Фиксированный', value: 'fixed' },
-  { label: 'Гибкий', value: 'flexible' },
-  { label: 'По проектам', value: 'project-based' },
-]
-
-export const SALARY_TYPE_OPTIONS = [
-  { label: 'Фиксированная', value: 'fixed' },
-  { label: 'Вилка', value: 'range' },
-]
-
-export const SALARY_PERIOD_OPTIONS = [
-  { label: 'в месяц', value: 'monthly' },
-  { label: 'за проект', value: 'per-project' },
-  { label: 'в час', value: 'hourly' },
-]
+})
