@@ -45,6 +45,7 @@ function mapFormToDb(
     contact: formData.contact,
     attachments_info: formData.attachments_info || null,
     close_date: formData.close_date.toISOString(),
+    status: 'pending',
   }
 }
 

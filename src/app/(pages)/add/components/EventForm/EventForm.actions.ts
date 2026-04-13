@@ -34,7 +34,9 @@ function mapFormToDb(
     contact_email: formData.contact_email || null,
     contact_telegram: formData.contact_telegram || null,
     contact_phone: formData.contact_phone || null,
-    registration_deadline: formData.registration_deadline?.toISOString() ?? null,
+    registration_deadline:
+      formData.registration_deadline?.toISOString() ?? null,
+    status: 'pending',
   }
 }
 
