@@ -34,21 +34,23 @@ import { Calendar } from '@/components/ui/calendar'
 import { cn } from '@/lib/utils'
 import {
   EVENT_FORM_SCHEMA,
-  EVENT_FORM_DEFAULT_VALUES,
+  getEventFormDefaultValues,
   EVENT_TYPE_OPTIONS,
   TARGET_AUDIENCE_OPTIONS,
   EVENT_FORMAT_OPTIONS,
   COST_TYPE_OPTIONS,
   DATE_TYPE_OPTIONS,
 } from './EventForm.constants'
+import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { createEvent } from './EventForm.actions'
 import { FormButton } from '@/components/form/FormButton'
 
 export const EventForm = () => {
+  const router = useRouter()
   const form = useForm<z.infer<typeof EVENT_FORM_SCHEMA>>({
     resolver: zodResolver(EVENT_FORM_SCHEMA),
-    defaultValues: EVENT_FORM_DEFAULT_VALUES,
+    defaultValues: getEventFormDefaultValues(),
   })
 
   const eventFormat = form.watch('event_format')
@@ -60,8 +62,7 @@ export const EventForm = () => {
       const result = await createEvent(values)
 
       if (result.success) {
-        toast.success('Мероприятие успешно создано!')
-        form.reset()
+        router.push('/add/success?type=event')
       } else {
         toast.error(
           result.error || 'Не удалось создать мероприятие. Попробуйте снова.',

@@ -154,3 +154,26 @@ export const EVENT_FORM_DEFAULT_VALUES = {
   contact_phone: '',
   registration_deadline: undefined as unknown as Date | undefined,
 }
+
+export const getEventFormDefaultValues = () => ({
+  title: 'Подкаст-конференция 2026',
+  event_type: 'conference',
+  target_audience: ['producers', 'editors', 'hosts'],
+  organizer: 'Подкаст-индустрия',
+  event_format: 'hybrid',
+  location: 'Москва, Конгресс-центр',
+  date_type: 'range',
+  date_start: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+  date_end: new Date(Date.now() + 32 * 24 * 60 * 60 * 1000),
+  cost_type: 'paid',
+  cost_amount: 5000 as number | '',
+  short_description:
+    'Ежегодная конференция для профессионалов подкаст-индустрии. Доклады, мастер-классы и нетворкинг.',
+  detailed_description:
+    'Два дня интенсивной программы: выступления ведущих продюсеров, воркшопы по монтажу и продвижению, панельные дискуссии о будущем аудио-контента.',
+  website: 'https://example.com/conference',
+  contact_email: 'test@example.com',
+  contact_telegram: '@podcastconf',
+  contact_phone: '+7 999 123 45 67',
+  registration_deadline: new Date(Date.now() + 25 * 24 * 60 * 60 * 1000),
+})

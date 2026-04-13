@@ -106,11 +106,11 @@ export const VACANCY_FORM_SCHEMA = z
   )
 
 export const getVacancyFormDefaultValues = () => ({
-  title: '',
-  role: '',
-  employer: '',
-  work_mode: '',
-  city: '',
+  title: 'Тестовая вакансия',
+  role: 'Тестовая роль',
+  employer: 'Тестовая компания',
+  work_mode: 'Тестовая работа',
+  city: 'Тестовая город',
   employment_type: 'full-time',
   schedule: 'flexible',
   salary_type: 'range',

@@ -109,3 +109,26 @@ export const RESUME_FORM_DEFAULT_VALUES = {
   contact_telegram: '',
   contact_website: '',
 }
+
+export const getResumeFormDefaultValues = () => ({
+  position: 'Подкаст-продюсер',
+  roles: ['producer', 'editor'],
+  employment_type: ['full-time', 'project'],
+  work_format: 'remote',
+  city: 'Москва',
+  salary_type: 'range',
+  salary_fixed: '' as unknown as number | '',
+  salary_from: 120000 as number | '',
+  salary_to: 250000 as number | '',
+  salary_period: 'monthly',
+  experience:
+    '3 года опыта в подкаст-продакшене. Запустил 5 подкастов с нуля, 2 из которых вошли в топ-10 Apple Podcasts.',
+  achievements:
+    'Подкаст "Голос индустрии" — 50 000 прослушиваний за первый месяц. Победитель конкурса "Лучший подкаст 2025".',
+  skills:
+    'Adobe Audition, Pro Tools, Audacity, Descript, монтаж, сценарии, работа с гостями, SMM-продвижение',
+  contact_email: 'test@example.com',
+  contact_phone: '+7 999 123 45 67',
+  contact_telegram: '@testproducer',
+  contact_website: 'https://example.com/portfolio',
+})

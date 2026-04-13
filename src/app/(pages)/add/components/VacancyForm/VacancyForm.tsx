@@ -41,6 +41,7 @@ import {
   VACANCY_FORM_SCHEMA,
   getVacancyFormDefaultValues,
 } from './VacancyForm.constants'
+import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { createVacancy } from './VacancyForm.actions'
 import { FormButton } from '@/components/form/FormButton'
@@ -108,6 +109,7 @@ const FieldArraySection = ({
 }
 
 export const VacancyForm = () => {
+  const router = useRouter()
   const form = useForm<FormValues>({
     resolver: zodResolver(VACANCY_FORM_SCHEMA),
     defaultValues: getVacancyFormDefaultValues(),
@@ -118,8 +120,7 @@ export const VacancyForm = () => {
       const result = await createVacancy(values)
 
       if (result.success) {
-        toast.success('Вакансия успешно создана!')
-        form.reset()
+        router.push('/add/success?type=vacancy')
       } else {
         toast.error(
           result.error || 'Не удалось создать вакансию. Попробуйте снова.',
