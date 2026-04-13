@@ -47,6 +47,7 @@ function mapFormToDb(
     close_date: formData.close_date
       ? formData.close_date.toISOString()
       : undefined,
+    status: 'pending',
   }
 }
 

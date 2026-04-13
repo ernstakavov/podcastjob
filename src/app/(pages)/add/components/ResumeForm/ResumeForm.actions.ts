@@ -42,6 +42,7 @@ function mapFormToDb(
     contact_phone: formData.contact_phone || null,
     contact_telegram: formData.contact_telegram || null,
     contact_website: formData.contact_website || null,
+    status: 'pending',
   }
 }
 

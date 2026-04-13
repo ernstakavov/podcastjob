@@ -23,6 +23,7 @@ export type Database = {
           id: string
           location: string
           program: string | null
+          status: string
           title: string
           updated_at: string
         }
@@ -34,6 +35,7 @@ export type Database = {
           id: string
           location: string
           program?: string | null
+          status?: string
           title: string
           updated_at?: string
         }
@@ -45,6 +47,7 @@ export type Database = {
           id?: string
           location?: string
           program?: string | null
+          status?: string
           title?: string
           updated_at?: string
         }
@@ -61,6 +64,7 @@ export type Database = {
           position: string
           salary_expected: number
           skills: string
+          status: string
           updated_at: string
         }
         Insert: {
@@ -73,6 +77,7 @@ export type Database = {
           position: string
           salary_expected: number
           skills: string
+          status?: string
           updated_at?: string
         }
         Update: {
@@ -85,6 +90,7 @@ export type Database = {
           position?: string
           salary_expected?: number
           skills?: string
+          status?: string
           updated_at?: string
         }
         Relationships: []
@@ -105,6 +111,7 @@ export type Database = {
           salary_max: number
           salary_min: number
           schedule: string
+          status: string
           title: string
           updated_at: string
           work_mode: string
@@ -125,6 +132,7 @@ export type Database = {
           salary_max: number
           salary_min: number
           schedule: string
+          status?: string
           title: string
           updated_at?: string
           work_mode: string
@@ -145,6 +153,7 @@ export type Database = {
           salary_max?: number
           salary_min?: number
           schedule?: string
+          status?: string
           title?: string
           updated_at?: string
           work_mode?: string

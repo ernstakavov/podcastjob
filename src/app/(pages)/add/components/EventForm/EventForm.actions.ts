@@ -37,6 +37,7 @@ function mapFormToDb(
     registration_deadline: formData.registration_deadline
       ? formData.registration_deadline.toISOString()
       : null,
+    status: 'pending',
   }
 }
 
