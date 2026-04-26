@@ -84,7 +84,7 @@ export async function updateEvent(
 
   // Remove undefined values
   const updateData = Object.fromEntries(
-    Object.entries(dbData).filter(([_, v]) => v !== undefined),
+    Object.entries(dbData).filter(([, v]) => v !== undefined),
   ) as Partial<Omit<EventInsert, 'created_at' | 'updated_at' | 'id'>>
 
   // Update the event

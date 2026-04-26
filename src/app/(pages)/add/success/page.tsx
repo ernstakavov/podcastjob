@@ -18,14 +18,14 @@ export default async function SuccessPage() {
 
         <div className='animate-[slide-in_0.6s_ease-out_0.15s_both]'>
           <div className='mx-auto max-w-[520px] space-y-6'>
-            <h2 className='text-xl font-bold text-black'>Что дальше?</h2>
+            <h2 className='text-xl font-bold text-[#141414]'>Что дальше?</h2>
             <div className='space-y-4'>
               <div className='flex gap-4'>
                 <div className='flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#141414] text-sm font-bold text-white'>
                   1
                 </div>
                 <div>
-                  <p className='font-semibold text-black'>Модерация</p>
+                  <p className='font-semibold text-[#141414]'>Модерация</p>
                   <p className='text-sm leading-relaxed text-black/50'>
                     Наша команда проверит вашу заявку — обычно это занимает не
                     больше суток.
@@ -38,7 +38,7 @@ export default async function SuccessPage() {
                   2
                 </div>
                 <div>
-                  <p className='font-semibold text-black'>Публикация</p>
+                  <p className='font-semibold text-[#141414]'>Публикация</p>
                   <p className='text-sm leading-relaxed text-black/50'>
                     После одобрения заявка будет опубликована в telegram-канале{' '}
                     <a
@@ -57,7 +57,7 @@ export default async function SuccessPage() {
                   3
                 </div>
                 <div>
-                  <p className='font-semibold text-black'>Отклики</p>
+                  <p className='font-semibold text-[#141414]'>Отклики</p>
                   <p className='text-sm leading-relaxed text-black/50'>
                     Подписчики канала увидят вашу заявку и смогут связаться с
                     вами напрямую.
