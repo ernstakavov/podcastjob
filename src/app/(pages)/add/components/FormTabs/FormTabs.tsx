@@ -1,5 +1,8 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ReactNode } from 'react'
+import { VacancyForm } from '../VacancyForm'
+import { ResumeForm } from '../ResumeForm'
+import { EventForm } from '../EventForm'
 
 export type FormTab = {
   title: string
@@ -7,13 +10,27 @@ export type FormTab = {
   component: ReactNode
 }
 
-type FormTabsProps = {
-  defaultTab: FormTab
-  tabs: Record<string, FormTab>
+export const FORM_TABS: Record<string, FormTab> = {
+  vacancy: {
+    title: 'Вакансия',
+    value: 'vacancy',
+    component: <VacancyForm />,
+  },
+  resume: {
+    title: 'Резюме',
+    value: 'resume',
+    component: <ResumeForm />,
+  },
+  event: {
+    title: 'Ивент',
+    value: 'event',
+    component: <EventForm />,
+  },
 }
 
-export const FormTabs = (props: FormTabsProps) => {
-  const { defaultTab, tabs } = props
+export const FormTabs = () => {
+  const defaultTab = FORM_TABS.vacancy
+  const tabs = FORM_TABS
 
   return (
     <>
