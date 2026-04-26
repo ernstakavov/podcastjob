@@ -313,14 +313,14 @@ export const VacancyForm = () => {
               name='close_date'
               render={({ field }) => (
                 <FormItem className='flex flex-col'>
-                  <FormLabel>Вакансия активна до</FormLabel>
+                  <FormLabel>Вакансия активна до:</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
                           variant={'outline'}
                           className={cn(
-                            'w-[240px] pl-3 text-left font-normal',
+                            'pl-3 text-left font-normal',
                             !field.value && 'text-muted-foreground',
                           )}
                         >
