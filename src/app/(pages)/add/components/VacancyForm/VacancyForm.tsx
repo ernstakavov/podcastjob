@@ -46,7 +46,7 @@ import { toast } from 'sonner'
 import { createVacancy } from './VacancyForm.actions'
 import { FormSubmitButton } from '@/components/form/FormSubmitButton'
 import { FormSection } from '@/components/form/FormSection'
-import { FieldArraySection } from './FieldArraySection'
+import { FieldArraySection } from '@/components/form/FieldArraySection'
 
 type FormValues = z.infer<typeof VACANCY_FORM_SCHEMA>
 
