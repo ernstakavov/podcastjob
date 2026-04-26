@@ -2,84 +2,156 @@
 
 import { useState } from 'react'
 import { LogoIcon } from '@/app/icons/LogoIcon'
-import { Cross } from '@/app/icons/Cross'
+import { Menu, XIcon } from 'lucide-react'
 
-export const Header: React.FC = () => {
+export const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
     <>
-      <header className='position sticky top-0 z-10 flex w-full items-center justify-between bg-[#141414] px-0 py-3 text-[#e4e3e8]'>
-        <div className='mx-auto flex w-[100%] max-w-[1228px] items-center justify-between px-6 max-sm:max-w-[320px]'>
-          <a href='https://podcasts.ru/'>
-            <LogoIcon />
+      {/* Main header bar */}
+      <header className='sticky top-0 z-10 w-full bg-[#141414] text-[#f5f5f5] shadow-[0_3px_5px_-1px_rgba(0,0,0,0.1),0_2px_1px_-1px_rgba(0,0,0,0.05)]'>
+        <div className='mx-auto flex h-[50px] w-full max-w-[1240px] items-center justify-between px-6 md:h-[65px]'>
+          <a href='https://podcasts.ru/' aria-label='Podcasts.ru'>
+            <LogoIcon className='h-[30px] w-auto py-1 md:h-[45px] md:py-2 lg:h-[50px]' />
           </a>
-          <button className='block' onClick={() => setMenuOpen(!menuOpen)}>
-            <svg width='24' height='24' viewBox='0 0 24 24' fill='none'>
-              <path
-                fillRule='evenodd'
-                clipRule='evenodd'
-                d='M23 3H1V5H23V3ZM1 11H23V13H1V11ZM1 19H23V21H1V19Z'
-                fill='white'
-              ></path>
-            </svg>
+          <button
+            className='block'
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label='Меню'
+          >
+            <Menu
+              width={36}
+              height={36}
+              className='cursor-pointer text-neutral-100'
+            />
           </button>
         </div>
       </header>
+
+      {/* Fullscreen menu overlay */}
       <nav
-        className={`invisible fixed -top-full left-0 z-30 h-full w-full bg-white transition-all delay-[0s] duration-[0.4s] ease-[ease] ${
-          menuOpen ? 'visible top-0' : ''
+        className={`fixed inset-0 z-30 bg-[#141414] p-8 text-white transition-transform duration-300 ease-[cubic-bezier(.4,0,.2,1)] ${
+          menuOpen ? 'translate-y-0' : 'pointer-events-none -translate-y-full'
         }`}
       >
-        <div className='relative m-0 flex h-full w-screen min-w-[360px] flex-col items-center justify-center bg-[#141414] px-8 py-0'>
-          <button onClick={() => setMenuOpen(!menuOpen)}>
-            <Cross className='absolute top-8 right-6 h-8 w-8 fill-neutral-100 text-2xl' />
+        <div className='relative flex h-full w-full flex-col items-center justify-center'>
+          <button
+            onClick={() => setMenuOpen(false)}
+            aria-label='Закрыть'
+            className='absolute top-0 right-0 flex h-24 w-24 items-center justify-center opacity-50 transition-opacity hover:opacity-100'
+          >
+            <XIcon
+              width={48}
+              height={48}
+              className='cursor-pointer text-neutral-100'
+            />
           </button>
-          <ul>
-            <div>
-              <li>
-                <a href='https://podcasts.ru/lenta/'>МЕДИА</a>
-              </li>
-              <li>
-                <a href='https://podcast.ru/'>СЕРВИС ССЫЛОК</a>
-              </li>
-              <li>
-                <a href='http://podcasts.ru/new'>НОВЫЕ ПОДКАСТЫ</a>
-              </li>
-              <li>
-                <a href='https://podcasts.ru/about/'>О ПРОЕКТЕ</a>
-              </li>
+
+          {/* Menu columns */}
+          <div className='flex flex-row justify-center max-md:flex-col max-md:items-start max-md:gap-0'>
+            {/* Column 1 */}
+            <div className='flex flex-col items-start md:w-[300px] xl:mx-10'>
+              <a
+                href='https://podcasts.ru/lenta/'
+                className='border-b border-transparent font-[Oswald,sans-serif] text-[14px] leading-[60px] uppercase transition-colors duration-300 hover:border-current md:text-[30px] md:leading-[80px]'
+              >
+                Медиа
+              </a>
+              <a
+                href='https://podcast.ru/'
+                target='_blank'
+                rel='noopener'
+                className='border-b border-transparent font-[Oswald,sans-serif] text-[14px] leading-[60px] uppercase transition-colors duration-300 hover:border-current md:text-[30px] md:leading-[80px]'
+              >
+                Сервис ссылок
+              </a>
+              <a
+                href='https://podlist.ru'
+                target='_blank'
+                rel='noopener'
+                className='border-b border-transparent font-[Oswald,sans-serif] text-[14px] leading-[60px] uppercase transition-colors duration-300 hover:border-current md:text-[30px] md:leading-[80px]'
+              >
+                Коллекции подкастов
+              </a>
+              <a
+                href='https://podcasts.ru/about/'
+                className='border-b border-transparent font-[Oswald,sans-serif] text-[14px] leading-[60px] uppercase transition-colors duration-300 hover:border-current md:text-[30px] md:leading-[80px]'
+              >
+                О проекте
+              </a>
             </div>
-            <div>
-              <li>
-                <a href='https://podcasts.ru/specialisty/'>БАЗА СПЕЦИАЛИСТОВ</a>
-              </li>
-              <li>
-                <a href='https://podcasts.ru/studios/'>БАЗА СТУДИЙ</a>
-              </li>
-              <li>
-                <a href='https://podcasts.ru/help/'>БАЗА ЗНАНИЙ</a>
-              </li>
-              <li>
-                <a href='https://budu.jobs/c/60d9b210-c795-48e9-b5a7-a23f142b7b2d?tab=vacancies'>
-                  ВАКАНСИИ
-                </a>
-              </li>
+
+            {/* Column 2 */}
+            <div className='flex flex-col items-start md:w-[300px] xl:mx-10'>
+              <a
+                href='https://podcasts.ru/specialisty/'
+                className='border-b border-transparent font-[Oswald,sans-serif] text-[14px] leading-[60px] uppercase transition-colors duration-300 hover:border-current md:text-[30px] md:leading-[80px]'
+              >
+                База специалистов
+              </a>
+              <a
+                href='https://podcastbery.ru/studios'
+                target='_blank'
+                rel='noopener'
+                className='border-b border-transparent font-[Oswald,sans-serif] text-[14px] leading-[60px] uppercase transition-colors duration-300 hover:border-current md:text-[30px] md:leading-[80px]'
+              >
+                База студий
+              </a>
+              <a
+                href='https://podcasts.ru/help/'
+                className='border-b border-transparent font-[Oswald,sans-serif] text-[14px] leading-[60px] uppercase transition-colors duration-300 hover:border-current md:text-[30px] md:leading-[80px]'
+              >
+                База знаний
+              </a>
+              <a
+                href='https://t.me/podcastjob'
+                target='_blank'
+                rel='noopener'
+                className='border-b border-transparent font-[Oswald,sans-serif] text-[14px] leading-[60px] uppercase transition-colors duration-300 hover:border-current md:text-[30px] md:leading-[80px]'
+              >
+                Вакансии
+              </a>
             </div>
-          </ul>
-          <div>
-            {/* className={styles.media}  */}
-            <div>
-              {/* className={styles.links} */}
-              <a href='https://podcast.ru/1541595049'>Новостной подкаст</a>
+          </div>
+
+          {/* Menu footer */}
+          <div className='mt-[100px] flex flex-row justify-center max-md:mt-8 max-md:w-full max-md:flex-col'>
+            <div className='text-left md:w-[300px] xl:mx-10'>
+              <a
+                href='https://podcast.ru/1719855411'
+                target='_blank'
+                rel='noopener'
+                className='mr-2.5 text-[14px] leading-[18px] max-md:float-left max-md:leading-8'
+              >
+                Подкаст «Деньги на звуке»
+              </a>
             </div>
-            <div>
-              {/* className={styles.links} */}
-              <a href='https://t.me/P0DCASTS'>Telegram</a>
-              <a href='https://www.youtube.com/channel/UCR2ZV9ARhpfhrQ0obkDVOeg'>
+            <div className='text-left md:w-[300px] xl:mx-10'>
+              <a
+                href='https://podcasts.t.me'
+                target='_blank'
+                rel='noopener'
+                className='mr-2.5 text-[14px] leading-[18px] max-md:float-left max-md:leading-8'
+              >
+                Telegram
+              </a>
+              <a
+                href='https://vk.ru/podcasts_ru'
+                target='_blank'
+                rel='noopener'
+                className='mr-2.5 text-[14px] leading-[18px] max-md:float-left max-md:leading-8'
+              >
+                VK
+              </a>
+              <a
+                href='https://youtube.com/podcasts_ru'
+                target='_blank'
+                rel='noopener'
+                className='mr-2.5 text-[14px] leading-[18px] max-md:float-left max-md:leading-8'
+              >
                 YouTube
               </a>
-              <a href='https://twitter.com/podcasts_ru'>Twitter</a>
             </div>
           </div>
         </div>

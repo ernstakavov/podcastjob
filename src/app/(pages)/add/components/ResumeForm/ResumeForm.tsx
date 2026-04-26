@@ -19,15 +19,17 @@ import { EmploymentTypeField } from '@/components/form/EmploymentTypeField'
 import { RoleField } from '@/components/form/RoleField'
 import { SalaryField } from '@/components/form/SalaryField'
 import { WorkModeField } from '@/components/form/WorkModeField'
+import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { createResume } from './ResumeForm.actions'
-import { RESUME_FORM_DEFAULT_VALUES } from './ResumeForm.constants'
+import { getResumeFormDefaultValues } from './ResumeForm.constants'
 import { FormButton } from '@/components/form/FormButton'
 
 export const ResumeForm = () => {
+  const router = useRouter()
   const form = useForm<z.infer<typeof RESUME_FORM_SCHEMA>>({
     resolver: zodResolver(RESUME_FORM_SCHEMA),
-    defaultValues: RESUME_FORM_DEFAULT_VALUES,
+    defaultValues: getResumeFormDefaultValues(),
   })
 
   async function onSubmit(values: z.infer<typeof RESUME_FORM_SCHEMA>) {
@@ -35,8 +37,7 @@ export const ResumeForm = () => {
       const result = await createResume(values)
 
       if (result.success) {
-        toast.success('Резюме успешно создано!')
-        form.reset()
+        router.push('/add/success?type=resume')
       } else {
         toast.error(
           result.error || 'Не удалось создать резюме. Попробуйте снова.',

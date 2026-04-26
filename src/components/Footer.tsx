@@ -1,6 +1,7 @@
 import { LogoIcon } from '@/app/icons/LogoIcon'
 import { TelegramIcon } from '@/app/icons/TelegramIcon'
 import { YoutubeIcon } from '@/app/icons/YoutubeIcon'
+import { VkIcon } from '@/app/icons/VkIcon'
 import { cn } from '@/lib/utils'
 
 type FooterProps = {
@@ -11,51 +12,93 @@ export const Footer = (props: FooterProps) => {
   const { className } = props
 
   return (
-    <footer
-      className={cn(
-        'relative flex min-h-[128px] flex-[0_0_auto] flex-col items-center justify-between bg-[#141414] px-0 pt-8 pb-2 text-[#e4e3e8]',
-        className,
-      )}
-    >
-      <div className='mx-auto flex w-[100%] max-w-[1228px] justify-between px-6 max-[944px]:flex-col max-sm:max-w-[320px]'>
-        <a href='https://podcasts.ru/' className='logo max-[944px]:mb-[24px]'>
-          <LogoIcon />
-        </a>
-        <div className='flex gap-4 max-[768px]:flex-col'>
-          <a href='https://podcasts.ru/about/' className='action-link'>
-            О проекте
-          </a>
-          <a
-            href='https://drive.google.com/file/d/1eG77nPKfNmhX6jUAsgUdkTCdgVh_FQcY/view?usp=drive_link'
-            className='action-link'
-          >
-            Медиакит
-          </a>
-          <a href='https://podcasts.ru/useragreement/' className='action-link'>
-            Пользовательское соглашение
-          </a>
-          <a
-            href='https://docs.google.com/document/d/1Gja8NDQpENtCsTW-cYBA_KUzJ2EMQjOIxf9ABtH386U/edit?usp=sharing'
-            className='action-link'
-          >
-            Редакционная политика
-          </a>
-        </div>
-        <div className='social'>
-          <a href='https://t.me/P0DCASTS' className='action-link'>
-            <TelegramIcon />
-          </a>
-          <a
-            href='https://www.youtube.com/channel/UCR2ZV9ARhpfhrQ0obkDVOeg'
-            className='action-link'
-          >
-            <YoutubeIcon />
-          </a>
+    <footer className={cn('flex-[0_0_auto]', className)}>
+      {/* Main footer row */}
+      <div className='bg-[#141414] px-6 py-6'>
+        <div className='mx-auto flex max-w-[1240px] items-center justify-between max-[900px]:flex-col max-[900px]:gap-6'>
+          {/* Logo */}
+          <div className='w-[16.667%] max-[900px]:w-auto'>
+            <a href='https://podcasts.ru/' aria-label='Podcasts.ru'>
+              <LogoIcon className='mx-auto h-auto w-3/5' />
+            </a>
+          </div>
+
+          {/* Links */}
+          <div className='flex flex-wrap gap-x-6 gap-y-3 text-[#e4e3e8] max-[600px]:flex-col'>
+            <a
+              href='https://podcasts.ru/about/'
+              className='border-b border-solid border-current text-inherit hover:border-transparent'
+            >
+              О проекте
+            </a>
+            <a
+              href='https://drive.google.com/file/d/1eG77nPKfNmhX6jUAsgUdkTCdgVh_FQcY/view?usp=drive_link'
+              target='_blank'
+              rel='noopener'
+              className='border-b border-solid border-current text-inherit hover:border-transparent'
+            >
+              Медиакит
+            </a>
+            <a
+              href='https://podcasts.ru/useragreement/'
+              className='border-b border-solid border-current text-inherit hover:border-transparent'
+            >
+              Пользовательское соглашение
+            </a>
+            <a
+              href='https://docs.google.com/document/d/1Gja8NDQpENtCsTW-cYBA_KUzJ2EMQjOIxf9ABtH386U/edit?usp=sharing'
+              target='_blank'
+              rel='noopener'
+              className='border-b border-solid border-current text-inherit hover:border-transparent'
+            >
+              Редакционная политика
+            </a>
+          </div>
+
+          {/* Social icons */}
+          <div className='flex items-center gap-3 max-[600px]:hidden'>
+            <a
+              href='https://t.me/podcasts'
+              target='_blank'
+              rel='noopener nofollow'
+              title='Telegram'
+              aria-label='Telegram'
+              className='text-[#e4e3e8] transition-opacity hover:opacity-70'
+            >
+              <TelegramIcon />
+            </a>
+            <a
+              href='https://vk.ru/podcasts_ru'
+              target='_blank'
+              rel='noopener nofollow'
+              title='Vkontakte'
+              aria-label='Vkontakte'
+              className='text-[#e4e3e8] transition-opacity hover:opacity-70'
+            >
+              <VkIcon />
+            </a>
+            <a
+              href='https://youtube.com/podcasts_ru'
+              target='_blank'
+              rel='noopener nofollow'
+              title='YouTube'
+              aria-label='YouTube'
+              className='text-[#e4e3e8] transition-opacity hover:opacity-70'
+            >
+              <YoutubeIcon />
+            </a>
+          </div>
         </div>
       </div>
-      <div className='rights'>
-        <span className='text-[#999999]'>© 2020-2023 </span>
-        <a href='https://podcasts.ru/'>Podcasts.ru</a>
+
+      {/* Copyright row */}
+      <div className='bg-[#141414] px-6 py-4'>
+        <p className='text-center text-[0.8rem] text-[#999999]'>
+          © 2020-2026{' '}
+          <a href='https://podcasts.ru/' className='text-[#e4e3e8]'>
+            Podcasts.ru
+          </a>
+        </p>
       </div>
     </footer>
   )
