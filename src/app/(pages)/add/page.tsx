@@ -40,8 +40,15 @@ export default function Add() {
           </h1>
           <p className='mx-auto max-w-[480px] text-base leading-relaxed text-black/60'>
             Заполните форму, чтобы разместить вакансию, резюме или мероприятие.
-            После модерации ваша заявка будет опубликована в telegram-канале
-            @podcastjob.
+            После модерации ваша заявка будет опубликована в telegram-канале{' '}
+            <a
+              href='https://t.me/podcastjob'
+              className='transition-colors duration-300 hover:text-[#00A739]'
+              target='_blank'
+              rel='noopener'
+            >
+              @podcastjob.
+            </a>
           </p>
         </header>
 
