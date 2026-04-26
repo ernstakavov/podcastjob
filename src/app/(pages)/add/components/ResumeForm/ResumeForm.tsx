@@ -23,7 +23,8 @@ import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { createResume } from './ResumeForm.actions'
 import { getResumeFormDefaultValues } from './ResumeForm.constants'
-import { FormButton } from '@/components/form/FormButton'
+import { FormSubmitButton } from '@/components/form/FormSubmitButton'
+import { FormSection } from '@/components/form/FormSection'
 
 export const ResumeForm = () => {
   const router = useRouter()
@@ -53,120 +54,125 @@ export const ResumeForm = () => {
     <Card className='relative mb-10 overflow-hidden rounded-[32px] border border-white/10 bg-white shadow-[0_20px_60px_rgba(0,0,0,0.15)] backdrop-blur-[20px]'>
       <CardContent className='relative z-[2]'>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
-            {/* 1. Должность */}
-            <div>
-              <h6 className='mb-1'>Должность</h6>
-              <p className='text-muted-foreground text-sm'>
-                Выберите должность, которая наиболее соответствует вашему опыту
-                и навыкам.
-              </p>
-            </div>
-            <FormField
-              control={form.control}
-              name='position'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel required>Искомая должность</FormLabel>
-                  <FormControl>
-                    <Input placeholder='Звукорежиссёр' type='text' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-10'>
+            <FormSection
+              title='Должность'
+              description='Какая позиция вам интересна и в каком формате занятости вы готовы работать.'
+            >
+              <FormField
+                control={form.control}
+                name='position'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel required>Искомая должность</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder='Звукорежиссёр'
+                        type='text'
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            {/* 2. Роль в подкаст-индустрии */}
-            <RoleField control={form.control} name='roles' multi />
+              <RoleField control={form.control} name='roles' multi />
 
-            {/* 3. Занятость */}
-            <EmploymentTypeField
-              control={form.control}
-              name='employment_type'
-              multi
-            />
+              <EmploymentTypeField
+                control={form.control}
+                name='employment_type'
+                multi
+              />
+            </FormSection>
 
-            {/* 4. Формат работы + город */}
-            <WorkModeField
-              control={form.control}
-              name='work_format'
-              cityName='city'
-            />
+            <FormSection
+              title='Желаемые условия работы'
+              description='Где вы хотите работать и сколько хотите зарабатывать.'
+            >
+              <WorkModeField
+                control={form.control}
+                name='work_format'
+                cityName='city'
+              />
 
-            {/* 5. Зарплата */}
-            <SalaryField
-              control={form.control}
-              typeName='salary_type'
-              fixedName='salary_fixed'
-              minName='salary_from'
-              maxName='salary_to'
-              periodName='salary_period'
-            />
+              <SalaryField
+                control={form.control}
+                typeName='salary_type'
+                fixedName='salary_fixed'
+                minName='salary_from'
+                maxName='salary_to'
+                periodName='salary_period'
+              />
+            </FormSection>
 
-            {/* 6. Опыт */}
-            <FormField
-              control={form.control}
-              name='experience'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel required>Опыт работы</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder='Опишите ваш опыт работы в подкаст-индустрии'
-                      className='resize-none'
-                      rows={10}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <FormSection
+              title='Опыт и навыки'
+              description='Расскажите о своём профессиональном пути.'
+            >
+              <FormField
+                control={form.control}
+                name='experience'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel required>Опыт работы</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder='Опишите ваш опыт работы в подкаст-индустрии'
+                        className='resize-none'
+                        rows={10}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            {/* 7. Достижения */}
-            <FormField
-              control={form.control}
-              name='achievements'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Достижения</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder='Ваши профессиональные достижения, награды, значимые проекты'
-                      className='resize-none'
-                      rows={10}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>Опционально</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name='achievements'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Достижения</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder='Ваши профессиональные достижения, награды, значимые проекты'
+                        className='resize-none'
+                        rows={10}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>Опционально</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            {/* 8. Навыки */}
-            <FormField
-              control={form.control}
-              name='skills'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel required>Навыки</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder='Перечислите ваши профессиональные навыки, знание программ, оборудования'
-                      className='resize-none'
-                      rows={10}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name='skills'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel required>Навыки</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder='Перечислите ваши профессиональные навыки, знание программ, оборудования'
+                        className='resize-none'
+                        rows={10}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </FormSection>
 
-            {/* 9. Контакты */}
-            <div className='space-y-4'>
-              <FormLabel>Контакты</FormLabel>
+            <FormSection
+              title='Контакты'
+              description='Как с вами связаться по поводу вакансии.'
+            >
               <div className='grid grid-cols-2 gap-4'>
                 <FormField
                   control={form.control}
@@ -233,8 +239,9 @@ export const ResumeForm = () => {
                   )}
                 />
               </div>
-            </div>
-            <FormButton />
+            </FormSection>
+
+            <FormSubmitButton>Опубликовать резюме</FormSubmitButton>
           </form>
         </Form>
       </CardContent>

@@ -1,8 +1,13 @@
 import { useFormContext } from 'react-hook-form'
 import { Loader2 } from 'lucide-react'
 import { Button } from '../ui/button'
+import { ReactNode } from 'react'
 
-export const FormButton = () => {
+type FormSubmitButtonProps = {
+  children: ReactNode
+}
+
+export const FormSubmitButton = ({ children }: FormSubmitButtonProps) => {
   const {
     formState: { isSubmitting },
   } = useFormContext()
@@ -13,11 +18,7 @@ export const FormButton = () => {
       type='submit'
       disabled={isSubmitting}
     >
-      {isSubmitting ? (
-        <Loader2 className='size-5 animate-spin' />
-      ) : (
-        'Опубликовать вакансию'
-      )}
+      {isSubmitting ? <Loader2 className='size-5 animate-spin' /> : children}
     </Button>
   )
 }

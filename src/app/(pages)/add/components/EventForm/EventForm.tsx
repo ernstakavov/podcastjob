@@ -44,7 +44,8 @@ import {
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { createEvent } from './EventForm.actions'
-import { FormButton } from '@/components/form/FormButton'
+import { FormSection } from '@/components/form/FormSection'
+import { FormSubmitButton } from '@/components/form/FormSubmitButton'
 
 export const EventForm = () => {
   const router = useRouter()
@@ -81,144 +82,76 @@ export const EventForm = () => {
     <Card className='relative mb-10 overflow-hidden rounded-[32px] border border-white/10 bg-white shadow-[0_20px_60px_rgba(0,0,0,0.15)] backdrop-blur-[20px]'>
       <CardContent className='relative z-[2]'>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
-            {/* 1. Название мероприятия */}
-            <FormField
-              control={form.control}
-              name='title'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel required>Название мероприятия</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder='Подкаст-конференция 2026'
-                      type='text'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-10'>
+            <FormSection
+              title='О мероприятии'
+              description='Что за мероприятие, для кого и кто организатор.'
+            >
+              <FormField
+                control={form.control}
+                name='title'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel required>Название мероприятия</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder='Подкаст-конференция 2026'
+                        type='text'
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            {/* 2–3. Тип мероприятия + Для кого */}
-            <div className='grid grid-cols-12 gap-4'>
-              <div className='col-span-6'>
-                <FormField
-                  control={form.control}
-                  name='event_type'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel required>Тип мероприятия</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder='Выберите тип' />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {EVENT_TYPE_OPTIONS.map((option) => (
-                            <SelectItem key={option.value} value={option.value}>
-                              {option.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className='col-span-6'>
-                <FormField
-                  control={form.control}
-                  name='target_audience'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel required>Для кого</FormLabel>
-                      <FormControl>
-                        <MultiSelect
-                          options={TARGET_AUDIENCE_OPTIONS}
-                          value={field.value}
-                          onValueChange={field.onChange}
-                          placeholder='Выберите аудиторию'
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
-
-            {/* 4. Организатор */}
-            <FormField
-              control={form.control}
-              name='organizer'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel required>Организатор</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder='Название компании / студии / комьюнити'
-                      type='text'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* 5–6. Формат мероприятия + Место проведения */}
-            <div className='grid grid-cols-12 gap-4'>
-              <div className={eventFormat ? 'col-span-4' : 'col-span-12'}>
-                <FormField
-                  control={form.control}
-                  name='event_format'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel required>Формат</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder='Выберите формат' />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {EVENT_FORMAT_OPTIONS.map((option) => (
-                            <SelectItem key={option.value} value={option.value}>
-                              {option.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              {eventFormat && (
-                <div className='col-span-8'>
+              <div className='grid grid-cols-12 gap-4'>
+                <div className='col-span-6'>
                   <FormField
                     control={form.control}
-                    name='location'
+                    name='event_type'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel required>Место проведения</FormLabel>
+                        <FormLabel required>Тип мероприятия</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder='Выберите тип' />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {EVENT_TYPE_OPTIONS.map((option) => (
+                              <SelectItem
+                                key={option.value}
+                                value={option.value}
+                              >
+                                {option.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className='col-span-6'>
+                  <FormField
+                    control={form.control}
+                    name='target_audience'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel required>Для кого</FormLabel>
                         <FormControl>
-                          <Input
-                            placeholder={locationPlaceholder}
-                            type='text'
-                            {...field}
+                          <MultiSelect
+                            options={TARGET_AUDIENCE_OPTIONS}
+                            value={field.value}
+                            onValueChange={field.onChange}
+                            placeholder='Выберите аудиторию'
                           />
                         </FormControl>
                         <FormMessage />
@@ -226,11 +159,88 @@ export const EventForm = () => {
                     )}
                   />
                 </div>
-              )}
-            </div>
+              </div>
 
-            {/* 7. Дата и время */}
-            <div className='space-y-4'>
+              <FormField
+                control={form.control}
+                name='organizer'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel required>Организатор</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder='Название компании / студии / комьюнити'
+                        type='text'
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </FormSection>
+
+            <FormSection
+              title='Когда и где'
+              description='Формат, место и дата проведения.'
+            >
+              <div className='grid grid-cols-12 gap-4'>
+                <div className={eventFormat ? 'col-span-4' : 'col-span-12'}>
+                  <FormField
+                    control={form.control}
+                    name='event_format'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel required>Формат</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder='Выберите формат' />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {EVENT_FORMAT_OPTIONS.map((option) => (
+                              <SelectItem
+                                key={option.value}
+                                value={option.value}
+                              >
+                                {option.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                {eventFormat && (
+                  <div className='col-span-8'>
+                    <FormField
+                      control={form.control}
+                      name='location'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel required>Место проведения</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder={locationPlaceholder}
+                              type='text'
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                )}
+              </div>
+
               <div className='grid grid-cols-12 gap-4'>
                 <div className='col-span-4'>
                   <FormField
@@ -354,135 +364,144 @@ export const EventForm = () => {
                   </div>
                 )}
               </div>
-            </div>
+            </FormSection>
 
-            {/* 8. Стоимость участия */}
-            <div className='grid grid-cols-12 gap-4'>
-              <div
-                className={costType === 'paid' ? 'col-span-6' : 'col-span-12'}
-              >
-                <FormField
-                  control={form.control}
-                  name='cost_type'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel required>Стоимость участия</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder='Выберите' />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {COST_TYPE_OPTIONS.map((option) => (
-                            <SelectItem key={option.value} value={option.value}>
-                              {option.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              {costType === 'paid' && (
-                <div className='col-span-6'>
+            <FormSection
+              title='Стоимость'
+              description='Платное мероприятие или бесплатное.'
+            >
+              <div className='grid grid-cols-12 gap-4'>
+                <div
+                  className={costType === 'paid' ? 'col-span-6' : 'col-span-12'}
+                >
                   <FormField
                     control={form.control}
-                    name='cost_amount'
+                    name='cost_type'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel required>Сумма</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder='1000'
-                            type='number'
-                            {...field}
-                            value={field.value ?? ''}
-                          />
-                        </FormControl>
+                        <FormLabel required>Стоимость участия</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder='Выберите' />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {COST_TYPE_OPTIONS.map((option) => (
+                              <SelectItem
+                                key={option.value}
+                                value={option.value}
+                              >
+                                {option.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
-              )}
-            </div>
 
-            {/* 9. Краткое описание */}
-            <FormField
-              control={form.control}
-              name='short_description'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel required>Краткое описание</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder='Что за мероприятие и зачем туда идти'
-                      className='resize-none'
-                      rows={3}
-                      maxLength={300}
-                      {...field}
+                {costType === 'paid' && (
+                  <div className='col-span-6'>
+                    <FormField
+                      control={form.control}
+                      name='cost_amount'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel required>Сумма</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder='1000'
+                              type='number'
+                              {...field}
+                              value={field.value ?? ''}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-                  </FormControl>
-                  <FormDescription>Максимум 300 символов</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                  </div>
+                )}
+              </div>
+            </FormSection>
 
-            {/* 10. Подробное описание */}
-            <FormField
-              control={form.control}
-              name='detailed_description'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Подробное описание</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder='Программа, спикеры, формат, аудитория и т.д.'
-                      className='resize-none'
-                      rows={10}
-                      maxLength={2000}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Опционально. Максимум 2000 символов
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <FormSection
+              title='Описание'
+              description='Чем мероприятие интересно и где о нём узнать больше.'
+            >
+              <FormField
+                control={form.control}
+                name='short_description'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel required>Краткое описание</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder='Что за мероприятие и зачем туда идти'
+                        className='resize-none'
+                        rows={3}
+                        maxLength={300}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>Максимум 300 символов</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            {/* 11. Вебсайт */}
-            <FormField
-              control={form.control}
-              name='website'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Вебсайт / страница регистрации</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder='https://example.com'
-                      type='text'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name='detailed_description'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Подробное описание</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder='Программа, спикеры, формат, аудитория и т.д.'
+                        className='resize-none'
+                        rows={10}
+                        maxLength={2000}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Опционально. Максимум 2000 символов
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            {/* 12. Контакты организатора */}
-            <div className='space-y-4'>
-              <FormLabel>Контакты организатора</FormLabel>
+              <FormField
+                control={form.control}
+                name='website'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Вебсайт / страница регистрации</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder='https://example.com'
+                        type='text'
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </FormSection>
 
+            <FormSection
+              title='Контакты и регистрация'
+              description='Как связаться с организатором и до какой даты можно зарегистрироваться.'
+            >
               <div className='grid grid-cols-12 gap-4'>
                 <div className='col-span-4'>
                   <FormField
@@ -544,47 +563,47 @@ export const EventForm = () => {
                   />
                 </div>
               </div>
-            </div>
 
-            {/* 13. Регистрация до */}
-            <FormField
-              control={form.control}
-              name='registration_deadline'
-              render={({ field }) => (
-                <FormItem className='flex flex-col'>
-                  <FormLabel>Регистрация до</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={'outline'}
-                          className={cn(
-                            'w-[240px] pl-3 text-left font-normal',
-                            !field.value && 'text-muted-foreground',
-                          )}
-                        >
-                          {field.value ? (
-                            format(field.value, 'PPP')
-                          ) : (
-                            <span>Выберите дату</span>
-                          )}
-                          <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className='w-auto p-0' align='start'>
-                      <Calendar
-                        mode='single'
-                        selected={field.value}
-                        onSelect={field.onChange}
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormButton />
+              <FormField
+                control={form.control}
+                name='registration_deadline'
+                render={({ field }) => (
+                  <FormItem className='flex flex-col'>
+                    <FormLabel>Регистрация до</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={'outline'}
+                            className={cn(
+                              'pl-3 text-left font-normal',
+                              !field.value && 'text-muted-foreground',
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, 'PPP')
+                            ) : (
+                              <span>Выберите дату</span>
+                            )}
+                            <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className='w-auto p-0' align='start'>
+                        <Calendar
+                          mode='single'
+                          selected={field.value}
+                          onSelect={field.onChange}
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </FormSection>
+
+            <FormSubmitButton>Опубликовать ивент</FormSubmitButton>
           </form>
         </Form>
       </CardContent>
