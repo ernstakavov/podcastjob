@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache'
 import type { VacancyInsert } from '@/server/db/schema'
 import type { z } from 'zod'
 import { VACANCY_FORM_SCHEMA } from './VacancyForm.constants'
+import { logger } from '@/lib/logger'
 
 // Type for form values
 type VacancyFormValues = z.infer<typeof VACANCY_FORM_SCHEMA>
@@ -66,7 +67,7 @@ export async function createVacancy(formData: VacancyFormValues) {
     .single()
 
   if (error) {
-    console.error('Error creating vacancy:', error)
+    logger.error('createVacancy failed', { code: error.code })
     return {
       success: false,
       error: 'Failed to create vacancy. Please try again.',
@@ -105,7 +106,7 @@ export async function updateVacancy(
     .single()
 
   if (error) {
-    console.error('Error updating vacancy:', error)
+    logger.error('updateVacancy failed', { code: error.code, id })
     return {
       success: false,
       error: 'Failed to update vacancy. Please try again.',
@@ -127,7 +128,7 @@ export async function deleteVacancy(id: string) {
   const { error } = await supabase.from('vacancy').delete().eq('id', id)
 
   if (error) {
-    console.error('Error deleting vacancy:', error)
+    logger.error('deleteVacancy failed', { code: error.code, id })
     return {
       success: false,
       error: 'Failed to delete vacancy. Please try again.',
@@ -150,7 +151,7 @@ export async function getVacancies() {
     .order('created_at', { ascending: false })
 
   if (error) {
-    console.error('Error fetching vacancies:', error)
+    logger.error('getVacancies failed', { code: error.code })
     return {
       success: false,
       error: 'Failed to fetch vacancies',

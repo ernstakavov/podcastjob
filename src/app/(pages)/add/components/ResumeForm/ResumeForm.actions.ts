@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache'
 import type { ResumeInsert } from '@/server/db/schema'
 import type { z } from 'zod'
 import { RESUME_FORM_SCHEMA } from './ResumeForm.constants'
+import { logger } from '@/lib/logger'
 
 // Type for form values
 type ResumeFormValues = z.infer<typeof RESUME_FORM_SCHEMA>
@@ -63,7 +64,7 @@ export async function createResume(formData: ResumeFormValues) {
     .single()
 
   if (error) {
-    console.error('Error creating resume:', error)
+    logger.error('createResume failed', { code: error.code })
 
     return {
       success: false,
@@ -103,7 +104,7 @@ export async function updateResume(
     .single()
 
   if (error) {
-    console.error('Error updating resume:', error)
+    logger.error('updateResume failed', { code: error.code, id })
     return {
       success: false,
       error: 'Failed to update resume. Please try again.',
@@ -125,7 +126,7 @@ export async function deleteResume(id: string) {
   const { error } = await supabase.from('resume').delete().eq('id', id)
 
   if (error) {
-    console.error('Error deleting resume:', error)
+    logger.error('deleteResume failed', { code: error.code, id })
     return {
       success: false,
       error: 'Failed to delete resume. Please try again.',
@@ -148,7 +149,7 @@ export async function getResumes() {
     .order('created_at', { ascending: false })
 
   if (error) {
-    console.error('Error fetching resumes:', error)
+    logger.error('getResumes failed', { code: error.code })
     return {
       success: false,
       error: 'Failed to fetch resumes',

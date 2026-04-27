@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache'
 import type { EventInsert } from '@/server/db/schema'
 import type { z } from 'zod'
 import { EVENT_FORM_SCHEMA } from './EventForm.constants'
+import { logger } from '@/lib/logger'
 
 // Type for form values
 type EventFormValues = z.infer<typeof EVENT_FORM_SCHEMA>
@@ -57,7 +58,7 @@ export async function createEvent(formData: EventFormValues) {
     .single()
 
   if (error) {
-    console.error('Error creating event:', error)
+    logger.error('createEvent failed', { code: error.code })
     return {
       success: false,
       error: 'Failed to create event. Please try again.',
@@ -96,7 +97,7 @@ export async function updateEvent(
     .single()
 
   if (error) {
-    console.error('Error updating event:', error)
+    logger.error('updateEvent failed', { code: error.code, id })
     return {
       success: false,
       error: 'Failed to update event. Please try again.',
@@ -118,7 +119,7 @@ export async function deleteEvent(id: string) {
   const { error } = await supabase.from('event').delete().eq('id', id)
 
   if (error) {
-    console.error('Error deleting event:', error)
+    logger.error('deleteEvent failed', { code: error.code, id })
     return {
       success: false,
       error: 'Failed to delete event. Please try again.',
@@ -141,7 +142,7 @@ export async function getEvents() {
     .order('created_at', { ascending: false })
 
   if (error) {
-    console.error('Error fetching events:', error)
+    logger.error('getEvents failed', { code: error.code })
     return {
       success: false,
       error: 'Failed to fetch events',
