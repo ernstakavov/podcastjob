@@ -1,7 +1,13 @@
 'use client'
 
-import { useFieldArray, type Control } from 'react-hook-form'
-import * as z from 'zod'
+import {
+  useFieldArray,
+  type Control,
+  type FieldArray,
+  type FieldArrayPath,
+  type FieldPath,
+  type FieldValues,
+} from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import {
   FormControl,
@@ -12,20 +18,20 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Plus, X } from 'lucide-react'
-import { VACANCY_FORM_SCHEMA } from './VacancyForm.constants'
 
-type FormValues = z.infer<typeof VACANCY_FORM_SCHEMA>
-
-export const FieldArraySection = ({
+export function FieldArraySection<
+  TFieldValues extends FieldValues,
+  TName extends FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>,
+>({
   label,
   name,
   control,
 }: {
   label: string
-  name: 'responsibilities' | 'requirements' | 'working_conditions'
-  control: Control<FormValues>
-}) => {
-  const { fields, append, remove } = useFieldArray({
+  name: TName
+  control: Control<TFieldValues>
+}) {
+  const { fields, append, remove } = useFieldArray<TFieldValues, TName>({
     control,
     name,
   })
@@ -37,7 +43,9 @@ export const FieldArraySection = ({
         <FormField
           key={field.id}
           control={control}
-          name={`${name}.${index}.value`}
+          name={
+            `${name}.${index}.value` as FieldPath<TFieldValues>
+          }
           render={({ field: inputField }) => (
             <FormItem>
               <div className='flex items-center gap-2'>
@@ -66,7 +74,9 @@ export const FieldArraySection = ({
           type='button'
           variant='outline'
           size='sm'
-          onClick={() => append({ value: '' })}
+          onClick={() =>
+            append({ value: '' } as FieldArray<TFieldValues, TName>)
+          }
         >
           <Plus className='mr-1 h-4 w-4' />
           Добавить пункт
