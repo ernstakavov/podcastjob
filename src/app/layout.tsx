@@ -27,7 +27,7 @@ const proximaNova = localFont({
 
 export const metadata: Metadata = {
   title: 'Podcast Job',
-  description: 'Create and find jobs in the podcast industry',
+  description: 'Create vacancies, resumes and events in the podcast industry',
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon.ico',
@@ -40,7 +40,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang='en'>
+    <html lang='ru'>
       <body
         className={`${oswaldSans.variable} ${roboto.variable} ${robotoCondensed.variable} ${proximaNova.variable} antialiased`}
       >
