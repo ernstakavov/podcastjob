@@ -10,7 +10,7 @@ export const Header = () => {
   return (
     <>
       {/* Main header bar */}
-      <header className='sticky top-0 z-10 w-full bg-[#141414] text-[#f5f5f5] shadow-[0_3px_5px_-1px_rgba(0,0,0,0.1),0_2px_1px_-1px_rgba(0,0,0,0.05)]'>
+      <header className='sticky top-0 z-10 h-min w-full bg-[#141414] text-[#f5f5f5] shadow-[0_3px_5px_-1px_rgba(0,0,0,0.1),0_2px_1px_-1px_rgba(0,0,0,0.05)]'>
         <div className='mx-auto flex h-[50px] w-full max-w-[1240px] items-center justify-between px-6 md:h-[65px]'>
           <a href='https://podcasts.ru/' aria-label='Podcasts.ru'>
             <LogoIcon className='h-[30px] w-auto py-1 md:h-[45px] md:py-2 lg:h-[50px]' />
