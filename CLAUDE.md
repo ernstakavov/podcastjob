@@ -15,7 +15,7 @@
 - `vacancy` - Job listings with position, salary range, requirements, employment type
 - `resume` - Job seeker profiles
 
-### UI Components
+### UI Components Никитка лошара
 
 Uses shadcn/ui pattern with Radix primitives. Components are styled with Tailwind CSS and class-variance-authority.
 
