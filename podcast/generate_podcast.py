@@ -191,6 +191,11 @@ SCRIPT = [
 ]
 
 VOICE_MODEL = {"glaz": "dmitri", "pos": "irina", "announce": "dmitri"}
+# Optional pitch/tempo resample per role (factor > 1 = higher & faster,
+# factor < 1 = lower & slower). Episodes may extend this dict.
+PITCH = {"announce": 1.14}
+# Roles that get a longer trailing pause (section headers / announcements).
+LONG_GAP = {"announce"}
 
 def render():
     pieces = []
@@ -206,12 +211,13 @@ def render():
         wavp = f"{WORK}/seg_{seg_i:02d}.wav"
         piper(text, model, wavp)
         a = read_wav(wavp)
-        if kind == "announce":
-            a = pitch_shift(a, 1.14)   # lower pitch -> booming radio announcer
+        pf = PITCH.get(kind)
+        if pf:
+            a = pitch_shift(a, pf)      # distinct timbre for this role
             a *= 1.05
         pieces.append(a)
         # natural gap; longer pause after announcer headers
-        pieces.append(silence(550 if kind == "announce" else 350))
+        pieces.append(silence(550 if kind in LONG_GAP else 350))
         seg_i += 1
         print(f"  rendered {kind:9s} seg{seg_i}: {len(a)/SR:5.1f}s")
     full = np.concatenate(pieces)
